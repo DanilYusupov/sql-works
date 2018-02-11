@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.sql-works</groupId>
+    <artifactId>sql-works</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.targret>${java.version}</maven.compiler.targret>
+        <http.schema>http</http.schema>
+        <http.host>localhost</http.host>
+        <http.port>9555</http.port>
+        <http.context>/</http.context>
+        <rmi.port>1099</rmi.port>
+        <tomcat.type>tomcat8x</tomcat.type>
+        <tomcat.version>8.5.23</tomcat.version>
+        <log4jcore.version>2.10.0</log4jcore.version>
+        <log4j.version>1.2.9</log4j.version>
+        <surefire.version>2.20.1</surefire.version>
+        <cargo.version>1.6.5</cargo.version>
+        <compiler.version>3.7.0</compiler.version>
+        <flyway.version>5.0.7</flyway.version>
+        <postgre.version>9.1-901-1.jdbc4</postgre.version>
+        <javax.servlet.version>4.0.0</javax.servlet.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgre.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefire.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>cargo-maven2-plugin</artifactId>
+                    <version>${cargo.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-maven-plugin</artifactId>
+                    <version>${flyway.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <target>${java.version}</target>
+                    <source>${java.version}</source>
+                </configuration>
+                <version>${compiler.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <modules>
+        <module>dao</module>
+        <module>service</module>
+        <module>web</module>
+        <module>model</module>
+    </modules>
+</project>
