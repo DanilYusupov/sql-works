@@ -1,7 +1,7 @@
 package com.sqlworks.model;
 
 public class Engineer {
-        private long id;
+        private Long id;
         private String firstName;
         private String lastName;
         private String major;
@@ -22,7 +22,7 @@ public class Engineer {
             this.tel = tel;
         }
 
-        public long getId() {
+        public Long getId() {
             return id;
         }
 
@@ -42,4 +42,7 @@ public class Engineer {
             return tel;
         }
 
+    public void setMajor(String major) {
+        this.major = major;
+    }
 }

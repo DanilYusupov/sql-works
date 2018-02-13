@@ -1,3 +1,5 @@
+package com.sqlworks.dao;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,6 +16,7 @@ public class ConnectionToDB {
         Properties props = new Properties();
         props.setProperty("user","postgres");
         props.setProperty("password","danil");
+        props.setProperty("insert_returning", "true");
         try {
             return DriverManager.getConnection(url, props);
         } catch (SQLException e) {

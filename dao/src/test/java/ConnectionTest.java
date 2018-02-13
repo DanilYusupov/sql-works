@@ -1,3 +1,4 @@
+import com.sqlworks.dao.ConnectionToDB;
 import org.junit.Test;
 
 import java.sql.Connection;
