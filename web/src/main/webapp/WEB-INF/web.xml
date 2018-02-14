@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <display-name>PostgreTest</display-name>
+
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>com.sqlworks.web.Home</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CreateEngineer</servlet-name>
+        <servlet-class>com.sqlworks.web.CreateEngineer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateEngineer</servlet-name>
+        <url-pattern>/create_engineer</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteEngineer</servlet-name>
+        <servlet-class>com.sqlworks.web.DeleteEngineer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteEngineer</servlet-name>
+        <url-pattern>/delete_engineer</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReadEngineer</servlet-name>
+        <servlet-class>com.sqlworks.web.ReadEngineer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReadEngineer</servlet-name>
+        <url-pattern>/read_engineer</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateEngineer</servlet-name>
+        <servlet-class>com.sqlworks.web.UpdateEngineer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateEngineer</servlet-name>
+        <url-pattern>/update_engineer</url-pattern>
+    </servlet-mapping>
+
+</web-app>

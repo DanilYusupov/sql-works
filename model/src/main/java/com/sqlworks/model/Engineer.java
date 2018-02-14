@@ -45,4 +45,16 @@ public class Engineer {
     public void setMajor(String major) {
         this.major = major;
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
 }

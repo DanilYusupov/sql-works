@@ -12,7 +12,7 @@
     </parent>
 
     <properties>
-        <database.url>jdbc:postgresql://localhost:5432/data</database.url>
+        <database.url>jdbc:postgresql://localhost:5432/postgres</database.url>
         <database.user>postgres</database.user>
         <database.password>danil</database.password>
     </properties>

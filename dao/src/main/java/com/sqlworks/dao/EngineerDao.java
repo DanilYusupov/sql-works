@@ -73,6 +73,19 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
         }
     }
 
+    public boolean deleteByName(String firstName, String lastName){
+        try (Connection connection = ConnectionToDB.connect()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "DELETE FROM " + tableName + " WHERE firstName = ? AND lastName = ?;");
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            return statement.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new DaoException("Error removing engineer: " + firstName + " " + lastName, e);
+        }
+    }
+
     @Override
     public Long save(Engineer entity) {
         return (isNew(entity)) ? insert(entity) : update(entity);

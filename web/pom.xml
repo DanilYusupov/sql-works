@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>web</artifactId>
+    <packaging>war</packaging>
     <parent>
         <groupId>com.sql-works</groupId>
         <artifactId>sql-works</artifactId>
@@ -16,6 +17,52 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sql-works</groupId>
+            <artifactId>service</artifactId>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <configuration>
+                    <container>
+                        <containerId>${tomcat.type}</containerId>
+                        <artifactInstaller>
+                            <groupId>org.apache.tomcat</groupId>
+                            <artifactId>tomcat</artifactId>
+                            <version>${tomcat.version}</version>
+                            <type>zip</type>
+                        </artifactInstaller>
+                    </container>
+                    <deployables>
+                        <deployable>
+                            <properties>
+                                <context>${http.context}</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+                    <configuration>
+                        <properties>
+                            <cargo.hostname>${http.host}</cargo.hostname>
+                            <cargo.servlet.port>${http.port}</cargo.servlet.port>
+                            <cargo.tomcat.uriencoding>UTF-8</cargo.tomcat.uriencoding>
+                        </properties>
+                    </configuration>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
