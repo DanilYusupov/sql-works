@@ -18,6 +18,7 @@ public class Home extends HttpServlet implements WebLogger{
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        request.getRequestDispatcher("/home.html").forward(request, response);
+        request.getRequestDispatcher("/home.jsp").forward(request, response);
+        request.getSession().removeAttribute("message");
     }
 }

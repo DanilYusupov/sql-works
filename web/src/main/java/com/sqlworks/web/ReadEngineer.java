@@ -1,13 +1,10 @@
 package com.sqlworks.web;
 
-import com.sqlworks.model.Engineer;
 import com.sqlworks.service.EngineerService;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class ReadEngineer extends HttpServlet implements WebLogger {
 
@@ -16,16 +13,7 @@ public class ReadEngineer extends HttpServlet implements WebLogger {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         String fullName = request.getParameter("readFullName");
-        Engineer read = service.getByName(fullName);
-
-        PrintWriter out = response.getWriter();
-        response.setContentType("text/html");
-        out.println("<script type=\"text/javascript\">");
-        out.println("$(window).on('load',function(){");
-        out.println("$('#myModal').modal('show');");
-        out.println("});");
-        out.println("</script>");
-
+        request.getSession().setAttribute("message", service.getInfo(fullName));
         response.sendRedirect("/home");
     }
 

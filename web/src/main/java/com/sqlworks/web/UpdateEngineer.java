@@ -21,5 +21,4 @@ public class UpdateEngineer extends HttpServlet implements WebLogger {
         service.updateEngineer(id, firstName, lastName, major, tel);
         response.sendRedirect("/home");
     }
-
 }

@@ -52,4 +52,11 @@ public class EngineerService {
         }
         return dao.save(old);
     }
+
+    public String getInfo(String fullName) {
+        Engineer engineer = getByName(fullName);
+        return "Name: " + engineer.getFirstName() + " " + engineer.getLastName() +
+                "<br>Major: " + engineer.getMajor() +
+                "<br>Phone: " + engineer.getTel();
+    }
 }
