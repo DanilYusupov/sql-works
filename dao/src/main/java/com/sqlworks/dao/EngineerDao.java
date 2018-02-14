@@ -3,19 +3,13 @@ package com.sqlworks.dao;
 import com.sqlworks.model.Engineer;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class EngineerDao implements GenericDao<Engineer, Long> {
     private String tableName;
     private static final Logger log = Logger.getLogger(EngineerDao.class);
-
-    public EngineerDao() {
-        this.tableName = getTableName();
-    }
 
     public EngineerDao(String tableName) {
         this.tableName = tableName;
@@ -133,18 +127,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
         return (entity.getId() == null);
     }
 
-    public String getTableName() {
-        Properties properties = new Properties();
-        try {
-            properties.load(getClass().getResourceAsStream("/db.properties"));
-            return properties.getProperty("dao.engineer.tablename");
-        } catch (IOException e) {
-            throw new DaoException("Cannot read table name from 'dao.project.tablename " +
-                    "from file db.properties", e);
-        }
-    }
-
-    private Engineer create(ResultSet result) throws SQLException {
+        private Engineer create(ResultSet result) throws SQLException {
         long id = result.getLong("id");
         String firstName = result.getString("firstName");
         String lastName = result.getString("lastName");
