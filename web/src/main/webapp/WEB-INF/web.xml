@@ -13,4 +13,13 @@
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>CreateEngineer</servlet-name>
+        <servlet-class>com.sqlworks.web.CreateEngineer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateEngineer</servlet-name>
+        <url-pattern>/create_engineer</url-pattern>
+    </servlet-mapping>
+
 </web-app>

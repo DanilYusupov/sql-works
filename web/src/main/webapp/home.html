@@ -20,31 +20,27 @@
 
             <div class="col mx-3 border rounded">
                 <h2 class="text-center"><span style="color: #007bff">C</span>reate engineer</h2>
-                <form method="post">
+                <form action="/create_engineer" method="post">
                     <div class="form-row">
                         <div class="col">
                             <label for="firstName">First name:</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="Ivan"
-                                   value="" required>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Ivan">
                         </div>
                         <div class="col">
                             <label for="lastName">Last name:</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="Ivanov"
-                                   value="" required>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Ivanov">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-">
                             <label for="major">Major:</label>
-                            <input type="text" class="form-control" id="major" placeholder="Mechanic"
-                                   value="" required>
+                            <input type="text" class="form-control" id="major" name="major" placeholder="Mechanic">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-">
                             <label for="tel">Phone number:</label>
-                            <input type="text" class="form-control" id="tel" placeholder="+780012345678"
-                                   value="" required>
+                            <input type="text" class="form-control" id="tel" name="tel" placeholder="+780012345678">
                         </div>
                     </div>
                     <br>
