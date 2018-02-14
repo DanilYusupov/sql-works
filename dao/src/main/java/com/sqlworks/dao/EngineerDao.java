@@ -87,7 +87,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
     protected Long insert(Engineer entity) {
         try (Connection connection = ConnectionToDB.connect()) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO " + tableName +
-                    " VALUES (null, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+                    " (firstName, lastName, major, tel) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
             statement.setString(3, entity.getMajor());

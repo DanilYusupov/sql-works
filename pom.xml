@@ -27,7 +27,7 @@
         <cargo.version>1.6.5</cargo.version>
         <compiler.version>3.7.0</compiler.version>
         <flyway.version>5.0.7</flyway.version>
-        <postgre.version>9.1-901-1.jdbc4</postgre.version>
+        <postgre.version>42.2.1.jre7</postgre.version>
         <javax.servlet.version>4.0.0</javax.servlet.version>
         <hibernate.version>5.2.13.Final</hibernate.version>
     </properties>
@@ -41,7 +41,7 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>postgresql</groupId>
+                <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgre.version}</version>
             </dependency>
