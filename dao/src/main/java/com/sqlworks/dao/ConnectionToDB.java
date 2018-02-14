@@ -1,3 +1,5 @@
+package com.sqlworks.dao;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,13 +11,18 @@ public class ConnectionToDB {
      * Make connection to my PostgreSQL Server on port 5432.
      * @return {@code java.sql.Connection}
      */
-    public static Connection connect(){
+    public static Connection connect() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new DaoException("Can't find org.postgresql.Driver.", e);
+        }
         String url = "jdbc:postgresql://localhost:5432/postgres";
         Properties props = new Properties();
         props.setProperty("user","postgres");
         props.setProperty("password","danil");
-        try {
-            return DriverManager.getConnection(url, props);
+        try{
+            return  DriverManager.getConnection(url, props);
         } catch (SQLException e) {
             throw new DaoException("Error while connecting to database: ", e);
         }
