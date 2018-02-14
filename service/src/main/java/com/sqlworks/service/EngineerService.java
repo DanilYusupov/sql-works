@@ -36,27 +36,28 @@ public class EngineerService {
         return dao.getByName(parts[0], parts[1]);
     }
 
-    public Long updateEngineer(Long id, String firstName, String lastName, String major, String tel) {
+    public String updateEngineer(Long id, String firstName, String lastName, String major, String tel) {
         Engineer old = dao.getById(id);
-        if (firstName != null){
+        if (!firstName.equals("")){
             old.setFirstName(firstName);
         }
-        if (lastName != null){
+        if (!lastName.equals("")){
             old.setLastName(lastName);
         }
-        if (major != null){
+        if (!major.equals("")){
             old.setMajor(major);
         }
-        if (tel != null){
+        if (!tel.equals("")){
             old.setTel(tel);
         }
-        return dao.save(old);
+        dao.save(old);
+        return "Engineer with id=" + id + " updated as " + old.getFirstName() + " " + old.getLastName();
     }
 
     public String getInfo(String fullName) {
         Engineer engineer = getByName(fullName);
-        return "Name: " + engineer.getFirstName() + " " + engineer.getLastName() +
-                "<br>Major: " + engineer.getMajor() +
-                "<br>Phone: " + engineer.getTel();
+        return "<p>Name: " + engineer.getFirstName() + " " + engineer.getLastName() + "</p> " +
+                "<p>Major: " + engineer.getMajor() + "</p> " +
+                "<p>Phone: " + engineer.getTel() + "</p>";
     }
 }

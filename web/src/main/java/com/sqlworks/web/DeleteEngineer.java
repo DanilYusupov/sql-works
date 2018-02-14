@@ -15,15 +15,16 @@ public class DeleteEngineer extends HttpServlet implements WebLogger {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         String fullName = request.getParameter("fullName");
-        Long id = Long.valueOf(request.getParameter("idOnDelete"));
         if (fullName != null) {
             if (service.deleteByName(fullName)) {
-                log.info(fullName + " deleted.");
+                request.getSession().setAttribute("message", fullName + " is deleted.");
             } else {
-                throw new DaoException(fullName + " isn't deleted!");
+                request.getSession().setAttribute("message",fullName + " isn't deleted! Check Your input.");
             }
         } else {
+            Long id = Long.valueOf(request.getParameter("idOnDelete"));
             service.getDao().deleteById(id);
+            request.getSession().setAttribute("message", "Engineer with id=" + id + " is deleted.");
         }
         response.sendRedirect("/home");
     }

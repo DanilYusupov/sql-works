@@ -13,12 +13,13 @@ public class UpdateEngineer extends HttpServlet implements WebLogger {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
-        Long id = Long.valueOf(request.getParameter("updateId"));
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String major = request.getParameter("major");
-        String tel = request.getParameter("tel");
-        service.updateEngineer(id, firstName, lastName, major, tel);
+        Long id = Long.valueOf(request.getParameter("idUpdate"));
+        String firstName = request.getParameter("firstNameUpdate");
+        String lastName = request.getParameter("lastNameUpdate");
+        String major = request.getParameter("majorUpdate");
+        String tel = request.getParameter("telUpdate");
+        String result = service.updateEngineer(id, firstName, lastName, major, tel);
+        request.getSession().setAttribute("message", result);
         response.sendRedirect("/home");
     }
 }

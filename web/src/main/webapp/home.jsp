@@ -254,7 +254,6 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript">
 $('#myModal').modal('show');
-
 </script>
 </body>
 </html>
