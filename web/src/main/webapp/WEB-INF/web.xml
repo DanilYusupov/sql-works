@@ -31,4 +31,22 @@
         <url-pattern>/delete_engineer</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ReadEngineer</servlet-name>
+        <servlet-class>com.sqlworks.web.ReadEngineer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReadEngineer</servlet-name>
+        <url-pattern>/read_engineer</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateEngineer</servlet-name>
+        <servlet-class>com.sqlworks.web.UpdateEngineer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateEngineer</servlet-name>
+        <url-pattern>/update_engineer</url-pattern>
+    </servlet-mapping>
+
 </web-app>

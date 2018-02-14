@@ -2,6 +2,7 @@ package com.sqlworks.service;
 
 import com.sqlworks.dao.DaoException;
 import com.sqlworks.dao.EngineerDao;
+import com.sqlworks.model.Engineer;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -27,6 +28,28 @@ public class EngineerService {
 
     public boolean deleteByName(String fullName) {
         String[] parts = fullName.split("\\s+");
-        return dao.deleteByName(parts[1], parts[2]);
+        return dao.deleteByName(parts[0], parts[1]);
+    }
+
+    public Engineer getByName(String fullName) {
+        String[] parts = fullName.split("\\s+");
+        return dao.getByName(parts[0], parts[1]);
+    }
+
+    public Long updateEngineer(Long id, String firstName, String lastName, String major, String tel) {
+        Engineer old = dao.getById(id);
+        if (firstName != null){
+            old.setFirstName(firstName);
+        }
+        if (lastName != null){
+            old.setLastName(lastName);
+        }
+        if (major != null){
+            old.setMajor(major);
+        }
+        if (tel != null){
+            old.setTel(tel);
+        }
+        return dao.save(old);
     }
 }
