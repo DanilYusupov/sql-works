@@ -22,4 +22,13 @@
         <url-pattern>/create_engineer</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DeleteEngineer</servlet-name>
+        <servlet-class>com.sqlworks.web.DeleteEngineer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteEngineer</servlet-name>
+        <url-pattern>/delete_engineer</url-pattern>
+    </servlet-mapping>
+
 </web-app>

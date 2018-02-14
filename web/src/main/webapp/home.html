@@ -24,23 +24,23 @@
                     <div class="form-row">
                         <div class="col">
                             <label for="firstName">First name:</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Ivan">
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Ivan" value="" required>
                         </div>
                         <div class="col">
                             <label for="lastName">Last name:</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Ivanov">
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Ivanov" value="" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-">
                             <label for="major">Major:</label>
-                            <input type="text" class="form-control" id="major" name="major" placeholder="Mechanic">
+                            <input type="text" class="form-control" id="major" name="major" placeholder="Mechanic" value="" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-">
                             <label for="tel">Phone number:</label>
-                            <input type="text" class="form-control" id="tel" name="tel" placeholder="+780012345678">
+                            <input type="text" class="form-control" id="tel" name="tel" placeholder="+780012345678" value="" required>
                         </div>
                     </div>
                     <br>
@@ -89,11 +89,11 @@
                              data-parent="#accordion">
                             <br>
                             <div class="col">
-                                <form>
+                                <form action="/delete_engineer" method="post">
                                     <div class="form-group">
                                         <label for="fullNameRemoval">Full name:</label>
-                                        <input type="email" class="form-control" id="fullNameRemoval"
-                                               aria-describedby="nameHelp" placeholder="Ivan Ivanov">
+                                        <input type="text" class="form-control" id="fullNameRemoval"
+                                               aria-describedby="nameHelp" placeholder="Ivan Ivanov" name="fullName">
                                         <small id="nameHelp" class="form-text text-muted">Only full name of engineer to
                                             be
                                             deleted
@@ -120,11 +120,11 @@
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                             <br>
                             <div class="col">
-                                <form>
+                                <form action="/delete_engineer" method="post">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Engineer identifier:</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1"
-                                               aria-describedby="emailHelp" placeholder="110452">
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                               aria-describedby="emailHelp" placeholder="110452" name="idOnDelete">
                                         <small id="emailHelp" class="form-text text-muted">For database holder only
                                         </small>
                                     </div>

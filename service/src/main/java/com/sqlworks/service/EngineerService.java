@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class EngineerService {
+
     private final EngineerDao dao = new EngineerDao(getTableName());
 
     public EngineerDao getDao() {
@@ -24,4 +25,8 @@ public class EngineerService {
         }
     }
 
+    public boolean deleteByName(String fullName) {
+        String[] parts = fullName.split("\\s+");
+        return dao.deleteByName(parts[1], parts[2]);
+    }
 }
