@@ -149,4 +149,8 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
         return new Engineer(id, firstName, lastName, major, tel);
     }
 
+    public Engineer[] getCustom(){
+        return null;
+    }
+
 }

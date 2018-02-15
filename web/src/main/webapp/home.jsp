@@ -18,18 +18,70 @@
 <!--<a data-toggle="modal" href="#myModal">Open Modal</a>-->
 
 <% if (request.getSession().getAttribute("message") != null) { %>
-<!-- Modal -->
+<!-- Modal message -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Engineer</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <%=request.getSession().getAttribute("message")%>
+               <%=request.getSession().getAttribute("message")%>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<%@ page import="com.sqlworks.model.Engineer,java.lang.reflect.Field,import java.util.ArrayList,import java.util.Arrays,import java.util.List" %>
+
+<% if (request.getSession().getAttribute("table") != null) { %>
+<!-- Modal table -->
+<div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tableTitle">Engineers</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <%
+                            String[] columns = (String[]) request.getSession().getAttribute("tableColumns");
+                            for (String column : columns) { %>
+                            <th scope="col"><%=column%></th>
+                        <% } %>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                            Engineer[] crowd = (Engineer[]) request.getSession().getAttribute("crowd");
+                            List<String> list = new ArrayList<>(Arrays.asList(request.getSession().getAttribute("fields")));
+                            int i = 1;
+                            for (Engineer man : crowd) { %>
+                                <tr>
+                                    <th scope="row"><%=i%></th>
+                                    <% for (String column : columns) { %>
+                                        <td><%
+                                        if (list.contains(...)){
+                                        %></td>
+                                    <% } %>
+                                </tr>
+                            <% } %>
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -116,29 +168,34 @@
                 <div class="form-row">
                     <div class="col-">
                         <label for="idUpdate">Existent id:</label>
-                        <input type="text" class="form-control" id="idUpdate" name="idUpdate" placeholder="552004" value="" required>
+                        <input type="text" class="form-control" id="idUpdate" name="idUpdate" placeholder="552004"
+                               value="" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <label for="firstNameUpdate">First name:</label>
-                        <input type="text" class="form-control" id="firstNameUpdate" name="firstNameUpdate" placeholder="Ivan">
+                        <input type="text" class="form-control" id="firstNameUpdate" name="firstNameUpdate"
+                               placeholder="Ivan">
                     </div>
                     <div class="col">
                         <label for="lastNameUpdate">Last name:</label>
-                        <input type="text" class="form-control" id="lastNameUpdate" name="lastNameUpdate" placeholder="Ivanov">
+                        <input type="text" class="form-control" id="lastNameUpdate" name="lastNameUpdate"
+                               placeholder="Ivanov">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-">
                         <label for="majorUpdate">Major:</label>
-                        <input type="text" class="form-control" id="majorUpdate" name="majorUpdate" placeholder="Mechanic">
+                        <input type="text" class="form-control" id="majorUpdate" name="majorUpdate"
+                               placeholder="Mechanic">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-">
                         <label for="telUpdate">Phone number:</label>
-                        <input type="text" class="form-control" id="telUpdate" name="telUpdate" placeholder="+780012345678">
+                        <input type="text" class="form-control" id="telUpdate" name="telUpdate"
+                               placeholder="+780012345678">
                     </div>
                 </div>
                 <br>
@@ -231,14 +288,58 @@
 
     <div class="container" style="padding-top: 2%; padding-bottom:0%; max-width: 60%;">
         <div class="display-4 text-center" style="padding-bottom: 1%;">Table output selector</div>
-        <div class="row">
-            <div class="col mx-3 border rounded">
-                <label class="switch switch-flat">
-                    <input class="switch-input" type="checkbox"/>
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                </label>
-            </div>
+        <div class="border rounded">
+            <form>
+                <div class="row align-items-center" style="padding-top: 2%; padding-bottom:2%;">
+                    <!--Choosing-->
+
+                    <div class="col mx-3 h5" style="border-right: 1px solid #dee2e6; height: 100%;">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="all" name="all">
+                            <label class="custom-control-label" for="all">Select all</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="engId" name="engId">
+                            <label class="custom-control-label" for="engId">Engineer id</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="engFullName" name="engFullName">
+                            <label class="custom-control-label" for="engFullName">Engineer full name</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox ml-4">
+                            <input type="checkbox" class="custom-control-input" id="engFirstName" name="engFirstName">
+                            <label class="custom-control-label" for="engFirstName">Engineer first name</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox ml-4">
+                            <input type="checkbox" class="custom-control-input" id="engLastName" name="engLastName">
+                            <label class="custom-control-label" for="engLastName">Engineer last name</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="engMajor" name="engMajor">
+                            <label class="custom-control-label" for="engMajor">Engineer major</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="engTel" name="engTel">
+                            <label class="custom-control-label" for="engTel">Engineer phone</label>
+                        </div>
+                    </div>
+
+                    <!--Buttons-->
+
+                    <div class="col pr-5 text-center">
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                            <button type="reset" class="btn btn-secondary">Clear</button>
+                            <button type="submit" class="btn btn-primary">Get information</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -254,6 +355,35 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript">
 $('#myModal').modal('show');
+
+
+</script>
+<script type="text/javascript">
+$('#tableModal').modal('show');
+
+</script>
+<script type="text/javascript">
+$('#all').click(function() {
+    $('#engId, #engFullName, #engFirstName, #engLastName, #engMajor, #engTel').prop('checked', this.checked);
+});
+
+$('#engFullName').click(function() {
+    $('#engFullName, #engFirstName, #engLastName').prop('checked', this.checked);
+});
+
+$('#engFirstName, #engLastName').click(function() {
+    if (!$(this).is(':checked')){
+        $('#engFullName').prop('checked', false);
+        }
+});
+
+$('#engId, #engFullName, #engFirstName, #engLastName, #engMajor, #engTel').click(function() {
+    if (!$(this).is(':checked')){
+        $('#all').prop('checked', false);
+        }
+});
+
+
 </script>
 </body>
 </html>
