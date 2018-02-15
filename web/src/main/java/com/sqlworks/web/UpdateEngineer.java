@@ -21,5 +21,6 @@ public class UpdateEngineer extends HttpServlet implements WebLogger {
         String result = service.updateEngineer(id, firstName, lastName, major, tel);
         request.getSession().setAttribute("message", result);
         response.sendRedirect("/home");
+        //TODO: make alert on engineer existence while filling fields.
     }
 }

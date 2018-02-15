@@ -1,6 +1,5 @@
 package com.sqlworks.web;
 
-import com.sqlworks.dao.DaoException;
 import com.sqlworks.service.EngineerService;
 
 import javax.servlet.http.HttpServlet;
@@ -23,8 +22,11 @@ public class DeleteEngineer extends HttpServlet implements WebLogger {
             }
         } else {
             Long id = Long.valueOf(request.getParameter("idOnDelete"));
-            service.getDao().deleteById(id);
-            request.getSession().setAttribute("message", "Engineer with id=" + id + " is deleted.");
+            if (service.getDao().deleteById(id)) {
+                request.getSession().setAttribute("message", "Engineer with id=" + id + " is deleted.");
+            } else {
+                request.getSession().setAttribute("message", "Error deleting engineer! No such engineer with id=" + id);
+            }
         }
         response.sendRedirect("/home");
     }

@@ -17,10 +17,10 @@ public class ConnectionToDB {
         } catch (ClassNotFoundException e) {
             throw new DaoException("Can't find org.postgresql.Driver.", e);
         }
-        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String url = "jdbc:postgresql://localhost:5432/crud";
         Properties props = new Properties();
-        props.setProperty("user","postgres");
-        props.setProperty("password","danil");
+        props.setProperty("user","cruder");
+        props.setProperty("password","p@ssw0rd");
         try{
             return  DriverManager.getConnection(url, props);
         } catch (SQLException e) {

@@ -28,12 +28,20 @@ public class EngineerService {
 
     public boolean deleteByName(String fullName) {
         String[] parts = fullName.split("\\s+");
-        return dao.deleteByName(parts[0], parts[1]);
+        if (parts.length > 1) {
+            return dao.deleteByName(parts[0], parts[1]);
+        } else {
+            return false;
+        }
     }
 
     public Engineer getByName(String fullName) {
         String[] parts = fullName.split("\\s+");
-        return dao.getByName(parts[0], parts[1]);
+        if (parts.length > 1) {
+            return dao.getByName(parts[0], parts[1]);
+        } else {
+            return null;
+        }
     }
 
     public String updateEngineer(Long id, String firstName, String lastName, String major, String tel) {
@@ -56,8 +64,13 @@ public class EngineerService {
 
     public String getInfo(String fullName) {
         Engineer engineer = getByName(fullName);
-        return "<p>Name: " + engineer.getFirstName() + " " + engineer.getLastName() + "</p> " +
-                "<p>Major: " + engineer.getMajor() + "</p> " +
-                "<p>Phone: " + engineer.getTel() + "</p>";
+        if (engineer != null) {
+            return "<p>Engineer id: " + engineer.getId() + "</p> " +
+                    "<p>Name: " + engineer.getFirstName() + " " + engineer.getLastName() + "</p> " +
+                    "<p>Major: " + engineer.getMajor() + "</p> " +
+                    "<p>Phone: " + engineer.getTel() + "</p>";
+        } else {
+            return "No such engineer!!!";
+        }
     }
 }

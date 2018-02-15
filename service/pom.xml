@@ -12,9 +12,9 @@
     </parent>
 
     <properties>
-        <database.url>jdbc:postgresql://localhost:5432/postgres</database.url>
-        <database.user>postgres</database.user>
-        <database.password>danil</database.password>
+        <database.url>jdbc:postgresql://localhost:5432/crud</database.url>
+        <database.user>cruder</database.user>
+        <database.password>p@ssw0rd</database.password>
     </properties>
 
     <dependencies>

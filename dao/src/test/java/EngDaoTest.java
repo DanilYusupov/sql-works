@@ -20,7 +20,7 @@ public class EngDaoTest {
     private final String major = "structure";
     private final String tel = "89001234567";
     private final long userId = 0;
-    private final String tableName = "TEST_ENGINEER_TABLE";
+    private final String tableName = "crud.TEST_ENGINEER_TABLE";
     private final Engineer engineer = new Engineer(firstName, lastName, major, tel);
     private final EngineerDao dao = new EngineerDao(tableName);
 

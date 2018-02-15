@@ -15,6 +15,7 @@ public class ReadEngineer extends HttpServlet implements WebLogger {
         String fullName = request.getParameter("readFullName");
         request.getSession().setAttribute("message", service.getInfo(fullName));
         response.sendRedirect("/home");
+        //TODO: add opportunity to read by id!
     }
 
 }

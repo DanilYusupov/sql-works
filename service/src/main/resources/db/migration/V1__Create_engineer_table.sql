@@ -1,4 +1,4 @@
-create table Engineer (
+CREATE TABLE crud.engineer (
     id SERIAL PRIMARY KEY,
     firstName TEXT NOT NULL,
     lastName TEXT NOT NULL,
