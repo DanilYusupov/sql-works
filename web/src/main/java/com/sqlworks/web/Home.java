@@ -1,8 +1,5 @@
 package com.sqlworks.web;
 
-import com.sqlworks.model.Engineer;
-import com.sqlworks.service.EngineerService;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

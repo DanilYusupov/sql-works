@@ -16,7 +16,7 @@
         <maven.compiler.targret>${java.version}</maven.compiler.targret>
         <http.schema>http</http.schema>
         <http.host>localhost</http.host>
-        <http.port>9555</http.port>
+        <http.port>9111</http.port>
         <http.context>/</http.context>
         <rmi.port>1099</rmi.port>
         <tomcat.type>tomcat8x</tomcat.type>
