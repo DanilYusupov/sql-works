@@ -17,5 +17,6 @@ public class Home extends HttpServlet implements WebLogger{
         request.setCharacterEncoding("UTF-8");
         request.getRequestDispatcher("/home.jsp").forward(request, response);
         request.getSession().removeAttribute("message");
+        request.getSession().removeAttribute("table");
     }
 }
