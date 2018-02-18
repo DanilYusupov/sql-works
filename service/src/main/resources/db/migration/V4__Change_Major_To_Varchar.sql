@@ -1,0 +1,2 @@
+
+ALTER TABLE crud.engineer ALTER COLUMN major TYPE VARCHAR(5) USING SUBSTRING(major, 1, 5);
