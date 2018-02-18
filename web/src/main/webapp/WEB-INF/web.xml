@@ -49,4 +49,13 @@
         <url-pattern>/update_engineer</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>GetAll</servlet-name>
+        <servlet-class>com.sqlworks.web.GetTable</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAll</servlet-name>
+        <url-pattern>/get_all</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -1,3 +1,5 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.sqlworks.model.Engineer" %>
 <!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" %>
 <html lang="en">
@@ -8,14 +10,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href=css/switch.css">
 </head>
-<body>
-
-<!-- Button trigger modal -->
-<!--style="display: none;"-->
-<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
-<!--Launch demo modal-->
-<!--</button>-->
-<!--<a data-toggle="modal" href="#myModal">Open Modal</a>-->
+<body data-spy="scroll" data-target=".list-group" data-offset="50">
 
 <% if (request.getSession().getAttribute("message") != null) { %>
 <!-- Modal message -->
@@ -38,59 +33,6 @@
     </div>
 </div>
 <% } %>
-
-<%@ page import="com.sqlworks.model.Engineer,java.lang.reflect.Field,import java.util.ArrayList,import java.util.Arrays,import java.util.List" %>
-
-<% if (request.getSession().getAttribute("table") != null) { %>
-<!-- Modal table -->
-<div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="tableTitle">Engineers</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table class="table">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <%
-                            String[] columns = (String[]) request.getSession().getAttribute("tableColumns");
-                            for (String column : columns) { %>
-                            <th scope="col"><%=column%></th>
-                        <% } %>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <%
-                            Engineer[] crowd = (Engineer[]) request.getSession().getAttribute("crowd");
-                            List<String> list = new ArrayList<>(Arrays.asList(request.getSession().getAttribute("fields")));
-                            int i = 1;
-                            for (Engineer man : crowd) { %>
-                                <tr>
-                                    <th scope="row"><%=i%></th>
-                                    <% for (String column : columns) { %>
-                                        <td><%
-                                        if (list.contains(...)){
-                                        %></td>
-                                    <% } %>
-                                </tr>
-                            <% } %>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<% } %>
-
 
 <div class="jumbotron bg-dark rounded-0" style="height: 134px">
     <div class="display-4"><span style="color: #007bff">CRUD</span> <span class="text-light">interface</span>
@@ -287,9 +229,9 @@
     <!--SQL toolbar-->
 
     <div class="container" style="padding-top: 2%; padding-bottom:0%; max-width: 60%;">
-        <div class="display-4 text-center" style="padding-bottom: 1%;">Table output selector</div>
+        <div class="text-center" style="padding-bottom: 1%;">Table output selector</div>
         <div class="border rounded">
-            <form>
+            <form action="/get_all" method="post">
                 <div class="row align-items-center" style="padding-top: 2%; padding-bottom:2%;">
                     <!--Choosing-->
 
@@ -331,17 +273,46 @@
                     </div>
 
                     <!--Buttons-->
+                    <%--col pr-5 text-center--%>
 
-                    <div class="col pr-5 text-center">
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <div id="spy-1" class="col mx-3 h5 list-group">
                             <button type="reset" class="btn btn-secondary">Clear</button>
                             <button type="submit" class="btn btn-primary">Get information</button>
-                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+    <%
+        List<Engineer> list = (List<Engineer>) request.getSession().getAttribute("table");
+        if (list != null) {
+    %>
+    <div class="container" data-spy="scroll" data-target="#spy-1" style="padding-top: 2%; padding-bottom:0%;">
+        <table id="table" class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Major</th>
+                <th scope="col">Phone</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (Engineer man : list) { %>
+            <tr>
+                <th scope="row"><%=man.getId()%></th>
+                <td><%=man.getFirstName()%></td>
+                <td><%=man.getLastName()%></td>
+                <td><%=man.getMajor()%></td>
+                <td><%=man.getTel()%></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+    <% } %>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
