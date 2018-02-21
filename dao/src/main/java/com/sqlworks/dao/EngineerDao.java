@@ -98,7 +98,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
             statement.setString(3, entity.getMajor());
-            statement.setString(4, entity.getTel());
+            statement.setLong(4, entity.getTel());
             statement.executeUpdate();
             ResultSet result = statement.getGeneratedKeys();
             if (result.next()) {
@@ -120,7 +120,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
             statement.setString(3, entity.getMajor());
-            statement.setString(4, entity.getTel());
+            statement.setLong(4, entity.getTel());
             statement.setLong(5, entity.getId());
             int result = statement.executeUpdate();
             if (result > 0) {
@@ -145,7 +145,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
         String firstName = result.getString("firstName");
         String lastName = result.getString("lastName");
         String major = result.getString("major");
-        String tel = result.getString("tel");
+        Long tel = result.getLong("tel");
         return new Engineer(id, firstName, lastName, major, tel);
     }
 

@@ -5,7 +5,9 @@ import com.sqlworks.model.Engineer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,31 +15,18 @@ import java.sql.Statement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V10;
 
-public class EngDaoTest {
+public class EngDaoTest extends TestUtils{
     private final String firstName = "Ivan";
     private final String lastName = "Ivanov";
     private final String major = "structure";
-    private final String tel = "89001234567";
+    private final Long tel = 89001234567L;
     private final long userId = 0;
-    private final String tableName = "crud.TEST_ENGINEER_TABLE";
+    private final String tableName = "crud.test_engineer_table";
     private final Engineer engineer = new Engineer(firstName, lastName, major, tel);
     private final EngineerDao dao = new EngineerDao(tableName);
-
-    @Before
-    public void createTestTable() {
-        try (Connection connection = ConnectionToDB.connect()) {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("create table " + tableName + " (" +
-                    "    id SERIAL PRIMARY KEY," +
-                    "    firstName TEXT NOT NULL," +
-                    "    lastName TEXT NOT NULL," +
-                    "    major TEXT," +
-                    "    tel TEXT);");
-        } catch (SQLException e) {
-            throw new DaoException("Creating " + tableName + " failed.");
-        }
-    }
+    private EmbeddedPostgres postgres;
 
     @Test
     public void testCrateUser() {
@@ -112,18 +101,6 @@ public class EngDaoTest {
             dao.deleteById(userId);
         } catch (DaoException e) {
             assertEquals("Error removing entity with ID = " + userId, e.getMessage());
-        }
-    }
-
-    @After
-    public void deleteTable() {
-        try (Connection connection = ConnectionToDB.connect()) {
-
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("DROP TABLE " + tableName + ";");
-
-        } catch (SQLException e) {
-            throw new DaoException("Cannot drop table '" + tableName + "'", e);
         }
     }
 }

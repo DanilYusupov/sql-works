@@ -5,16 +5,16 @@ public class Engineer {
         private String firstName;
         private String lastName;
         private String major;
-        private String tel;
+        private Long tel;
 
-        public Engineer(String firstName, String lastName, String major, String tel) {
+        public Engineer(String firstName, String lastName, String major, Long tel) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.major = major;
             this.tel = tel;
         }
 
-        public Engineer(long id, String firstName, String lastName, String major, String tel) {
+        public Engineer(long id, String firstName, String lastName, String major, Long tel) {
             this.id = id;
             this.firstName = firstName;
             this.lastName = lastName;
@@ -38,7 +38,7 @@ public class Engineer {
             return major;
         }
 
-        public String getTel() {
+        public Long getTel() {
             return tel;
         }
 
@@ -54,7 +54,7 @@ public class Engineer {
         this.lastName = lastName;
     }
 
-    public void setTel(String tel) {
+    public void setTel(Long tel) {
         this.tel = tel;
     }
 }
