@@ -10,14 +10,20 @@ import java.util.List;
 public class EngineerDao implements GenericDao<Engineer, Long> {
     private String tableName;
     private static final Logger log = Logger.getLogger(EngineerDao.class);
+    private final Connection conn;
 
-    public EngineerDao(String tableName) {
+    public EngineerDao(Connection conn, String tableName) {
+        this.conn = conn;
         this.tableName = tableName;
+    }
+
+    public EngineerDao() {
+        this.conn = ConnectionToDB.connect();
     }
 
     @Override
     public Engineer getByName(String firstName, String lastName) {
-        try (Connection connection = ConnectionToDB.connect()) {
+        try (Connection connection = conn) {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM " + tableName + " WHERE firstName = ? AND lastName = ?;");
             statement.setString(1, firstName);
@@ -32,7 +38,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
 
     @Override
     public Engineer getById(Long id) {
-        try (Connection connection = ConnectionToDB.connect()) {
+        try (Connection connection = conn) {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM " + tableName + " WHERE id = ?;");
             statement.setLong(1, id);
@@ -47,7 +53,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
     @Override
     public List<Engineer> getAll() {
         List<Engineer> userList = new ArrayList<>();
-        try (Connection connection = ConnectionToDB.connect()) {
+        try (Connection connection = conn) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
                     "SELECT * FROM " + tableName + " ;");
@@ -62,7 +68,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
 
     @Override
     public boolean deleteById(Long id) {
-        try (Connection connection = ConnectionToDB.connect()) {
+        try (Connection connection = conn) {
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM " + tableName + " WHERE id = ?;");
             statement.setLong(1, id);
@@ -74,7 +80,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
     }
 
     public boolean deleteByName(String firstName, String lastName){
-        try (Connection connection = ConnectionToDB.connect()) {
+        try (Connection connection = conn) {
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM " + tableName + " WHERE firstName = ? AND lastName = ?;");
             statement.setString(1, firstName);
@@ -92,7 +98,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
     }
 
     protected Long insert(Engineer entity) {
-        try (Connection connection = ConnectionToDB.connect()) {
+        try (Connection connection = conn) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO " + tableName +
                     " (firstName, lastName, major, tel) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, entity.getFirstName());
@@ -114,7 +120,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
     }
 
     protected Long update(Engineer entity) {
-        try (Connection connection = ConnectionToDB.connect()) {
+        try (Connection connection = conn) {
             PreparedStatement statement = connection.prepareStatement("UPDATE " + tableName +
                     " SET firstName = ?, lastName = ?, major = ?, tel = ? WHERE id = ?;");
             statement.setString(1, entity.getFirstName());
@@ -150,6 +156,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
     }
 
     public Engineer[] getCustom(){
+        //TODO: realize method in accordance to checkbox!!!
         return null;
     }
 

@@ -1,14 +1,24 @@
+import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
+import com.opentable.db.postgres.junit.SingleInstancePostgresRule;
 import com.sqlworks.dao.DaoException;
 import com.sqlworks.dao.EngineerDao;
 import com.sqlworks.model.Engineer;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
-public class EngDaoTest extends TestUtils{
+import static org.junit.Assert.*;
+
+public class EngDaoTest {
+    //TODO: Попробуй решить задлачу от обратного! Верни на место ДАО и добавь перегруженный метод коннект, где на вход ты подаешь порт
+    //TODO: а так как порт всегда рандомный, то его надо брать из embeddedDB!
     private final String firstName = "Ivan";
     private final String lastName = "Ivanov";
     private final String major = "structure";
@@ -16,8 +26,29 @@ public class EngDaoTest extends TestUtils{
     private final long userId = 0;
     private final String tableName = "crud.test_engineer_table";
     private final Engineer engineer = new Engineer(firstName, lastName, major, tel);
-    private final EngineerDao dao = new EngineerDao(tableName);
-    private EmbeddedPostgres postgres;
+    private EngineerDao dao;
+
+    @Rule
+    public SingleInstancePostgresRule epg = EmbeddedPostgresRules.singleInstance();
+
+    @Before
+    public void init() throws SQLException {
+        Map<String, String> props = new HashMap();
+        props.put("PGPORT", "5432");
+        dao = new EngineerDao(epg.getEmbeddedPostgres().getDatabase("cruder", "crud", props)
+                .getConnection("cruder", "p@ssw0rd"), tableName);
+    }
+
+    @Test
+    public void testRule() throws Exception {
+        try (Connection c = epg.getEmbeddedPostgres().getPostgresDatabase().getConnection()){
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery("SELECT 1");
+            assertTrue(rs.next());
+            assertEquals(1, rs.getInt(1));
+            assertFalse(rs.next());
+        }
+    }
 
     @Test
     public void testCrateUser() {
