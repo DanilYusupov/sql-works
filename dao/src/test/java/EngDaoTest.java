@@ -1,21 +1,12 @@
-import com.sqlworks.dao.ConnectionToDB;
 import com.sqlworks.dao.DaoException;
 import com.sqlworks.dao.EngineerDao;
 import com.sqlworks.model.Engineer;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
-
-import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V10;
 
 public class EngDaoTest extends TestUtils{
     private final String firstName = "Ivan";

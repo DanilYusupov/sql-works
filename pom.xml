@@ -22,7 +22,7 @@
         <tomcat.type>tomcat8x</tomcat.type>
         <tomcat.version>8.5.23</tomcat.version>
         <log4jcore.version>2.10.0</log4jcore.version>
-        <log4j.version>1.2.9</log4j.version>
+        <log4j.version>1.2.12</log4j.version>
         <surefire.version>2.20.1</surefire.version>
         <cargo.version>1.6.5</cargo.version>
         <compiler.version>3.7.0</compiler.version>
@@ -31,8 +31,8 @@
         <javax.servlet.version>4.0.0</javax.servlet.version>
         <hibernate.version>5.2.13.Final</hibernate.version>
         <postgre.embedded.version>2.6</postgre.embedded.version>
-        <junit.version>4.8</junit.version>
-       <slf4g.version>1.7.9</slf4g.version>
+        <junit.version>4.9</junit.version>
+       <slf4j.version>1.7.9</slf4j.version>
     </properties>
 
     <dependencyManagement>
@@ -76,12 +76,12 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>${slf4g.version}</version>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.slf4g</groupId>
-                <artifactId>slf4g-log4j12</artifactId>
-                <version>${slf4g.version}</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sql-works</groupId>

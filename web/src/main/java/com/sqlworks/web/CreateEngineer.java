@@ -17,7 +17,7 @@ public class CreateEngineer extends HttpServlet implements WebLogger {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String major = request.getParameter("major");
-        String tel = request.getParameter("tel");
+        Long tel = Long.valueOf(request.getParameter("tel"));
         log.info("Получено из формы: " + firstName + ", " + lastName + ", " + major + ", " + tel + ".");
         service.getDao().save(new Engineer(firstName, lastName, major, tel));
         request.getSession().setAttribute("message", "Engineer " + firstName + " " + lastName + " is created!");

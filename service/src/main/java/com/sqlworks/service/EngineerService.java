@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.util.Properties;
 
 public class EngineerService {
-
+    //TODO: make embedded psql launch while flyway goals!
     private final EngineerDao dao = new EngineerDao(getTableName());
 
     public EngineerDao getDao() {
@@ -45,7 +45,7 @@ public class EngineerService {
         }
     }
 
-    public String updateEngineer(Long id, String firstName, String lastName, String major, String tel) {
+    public String updateEngineer(Long id, String firstName, String lastName, String major, Long tel) {
         Engineer old = dao.getById(id);
         if (!firstName.equals("")){
             old.setFirstName(firstName);
@@ -56,7 +56,7 @@ public class EngineerService {
         if (!major.equals("")){
             old.setMajor(major);
         }
-        if (!tel.equals("")){
+        if (tel != 0){
             old.setTel(tel);
         }
         dao.save(old);
