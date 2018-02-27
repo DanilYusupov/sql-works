@@ -17,7 +17,7 @@ public class UpdateEngineer extends HttpServlet implements WebLogger {
         String firstName = request.getParameter("firstNameUpdate");
         String lastName = request.getParameter("lastNameUpdate");
         String major = request.getParameter("majorUpdate");
-        String tel = request.getParameter("telUpdate");
+        Long tel = Long.valueOf(request.getParameter("telUpdate"));
         String result = service.updateEngineer(id, firstName, lastName, major, tel);
         request.getSession().setAttribute("message", result);
         response.sendRedirect("/home");

@@ -1,41 +1,61 @@
-import com.sqlworks.dao.ConnectionToDB;
+import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
+import com.opentable.db.postgres.junit.SingleInstancePostgresRule;
 import com.sqlworks.dao.DaoException;
 import com.sqlworks.dao.EngineerDao;
 import com.sqlworks.model.Engineer;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class EngDaoTest {
+
+
     private final String firstName = "Ivan";
     private final String lastName = "Ivanov";
     private final String major = "structure";
-    private final String tel = "89001234567";
+    private final Long tel = 89001234567L;
     private final long userId = 0;
-    private final String tableName = "crud.TEST_ENGINEER_TABLE";
+    private final String tableName = "test_engineer_table";
     private final Engineer engineer = new Engineer(firstName, lastName, major, tel);
-    private final EngineerDao dao = new EngineerDao(tableName);
+    private EngineerDao dao;
+
+    @Rule
+    public SingleInstancePostgresRule epg = EmbeddedPostgresRules.singleInstance();
 
     @Before
-    public void createTestTable() {
-        try (Connection connection = ConnectionToDB.connect()) {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("create table " + tableName + " (" +
+    public void init() throws SQLException {
+        DataSource dataSource = epg.getEmbeddedPostgres().getPostgresDatabase();
+        dao = new EngineerDao(dataSource, tableName);
+        try (Connection connection = dao.getDatasource().getConnection()) {
+            Statement s = connection.createStatement();
+            s.executeUpdate("CREATE TABLE " + tableName + " (" +
                     "    id SERIAL PRIMARY KEY," +
                     "    firstName TEXT NOT NULL," +
                     "    lastName TEXT NOT NULL," +
-                    "    major TEXT," +
-                    "    tel TEXT);");
-        } catch (SQLException e) {
-            throw new DaoException("Creating " + tableName + " failed.");
+                    "    major VARCHAR(40)," +
+                    "    tel BIGINT)");
+        }
+
+        System.out.println("Created test table.");
+    }
+
+    @Test
+    public void testRule() throws Exception {
+        try (Connection c = epg.getEmbeddedPostgres().getPostgresDatabase().getConnection()) {
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery("SELECT 1");
+            assertTrue(rs.next());
+            assertEquals(1, rs.getInt(1));
+            assertFalse(rs.next());
         }
     }
 
@@ -116,14 +136,10 @@ public class EngDaoTest {
     }
 
     @After
-    public void deleteTable() {
-        try (Connection connection = ConnectionToDB.connect()) {
-
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("DROP TABLE " + tableName + ";");
-
-        } catch (SQLException e) {
-            throw new DaoException("Cannot drop table '" + tableName + "'", e);
-        }
+    public void end() throws SQLException {
+        try (Connection connection = dao.getDatasource().getConnection()){
+            Statement s = connection.createStatement();
+            s.executeUpdate("DROP TABLE " + tableName + ";");}
+        System.out.println("Testing performed. Dropping test table. Closing thread.");
     }
 }
