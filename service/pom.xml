@@ -35,6 +35,10 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ru.yandex.qatools.embed</groupId>
+            <artifactId>postgresql-embedded</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -63,13 +67,46 @@
                 <executions>
                     <execution>
                         <id>Migration</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>integration-test</phase>
                         <goals>
                             <goal>migrate</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>exec-maven-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>PSQL-START</id>-->
+                        <!--<goals>-->
+                            <!--<goal>java</goal>-->
+                        <!--</goals>-->
+                        <!--<phase>pre-integration-test</phase>-->
+                        <!--<configuration>-->
+                            <!--<arguments>-->
+                                <!--<argument>0</argument>-->
+                            <!--</arguments>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>PSQL-STOP</id>-->
+                        <!--<goals>-->
+                            <!--<goal>java</goal>-->
+                        <!--</goals>-->
+                        <!--<phase>post-integration-test</phase>-->
+                        <!--<configuration>-->
+                            <!--<arguments>-->
+                                <!--<argument>1</argument>-->
+                            <!--</arguments>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<configuration>-->
+                    <!--<mainClass>com.sqlworks.service.migration.Executor</mainClass>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

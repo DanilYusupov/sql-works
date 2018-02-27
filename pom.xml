@@ -35,6 +35,7 @@
         <junit.version>4.9</junit.version>
         <slf4j.version>1.7.9</slf4j.version>
         <hikari.version>2.7.8</hikari.version>
+        <mojo.exec.version>1.6.0</mojo.exec.version>
     </properties>
 
     <dependencyManagement>
@@ -149,6 +150,11 @@
                     <groupId>org.flywaydb</groupId>
                     <artifactId>flyway-maven-plugin</artifactId>
                     <version>${flyway.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${mojo.exec.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
