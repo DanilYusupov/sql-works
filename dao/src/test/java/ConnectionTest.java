@@ -1,6 +1,7 @@
 import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
 import com.opentable.db.postgres.junit.SingleInstancePostgresRule;
 import com.sqlworks.dao.ConnectionToDB;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -14,8 +15,8 @@ public class ConnectionTest {
 
     @Test
     public void connectingTest() throws SQLException {
-        try(Connection connection = ConnectionToDB.connect()){
-            System.out.println("Connected!");
+        try(Connection connection = pg.getEmbeddedPostgres().getPostgresDatabase().getConnection()){
+            System.out.println("Connected on port: " + pg.getEmbeddedPostgres().getPort());
         }
     }
 }

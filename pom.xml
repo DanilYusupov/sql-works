@@ -28,11 +28,13 @@
         <compiler.version>3.7.0</compiler.version>
         <flyway.version>5.0.7</flyway.version>
         <postgre.version>42.2.1.jre7</postgre.version>
+        <postgre.ds.version>9.1-901.jdbc4</postgre.ds.version>
         <javax.servlet.version>4.0.0</javax.servlet.version>
         <hibernate.version>5.2.13.Final</hibernate.version>
         <postgre.embedded.version>2.6</postgre.embedded.version>
         <junit.version>4.9</junit.version>
-       <slf4j.version>1.7.9</slf4j.version>
+        <slf4j.version>1.7.9</slf4j.version>
+        <hikari.version>2.7.8</hikari.version>
     </properties>
 
     <dependencyManagement>
@@ -57,6 +59,11 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgre.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgre.ds.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -103,21 +110,26 @@
                 <artifactId>web</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
-                <dependency>
-                    <groupId> org.apache.cassandra</groupId>
-                    <artifactId>cassandra-all</artifactId>
-                    <version>${cassandra.version}</version>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.slf4j</groupId>
-                            <artifactId>slf4j-log4j12</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>log4j</groupId>
-                            <artifactId>log4j</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
+            <dependency>
+                <groupId>org.apache.cassandra</groupId>
+                <artifactId>cassandra-all</artifactId>
+                <version>${cassandra.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${hikari.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

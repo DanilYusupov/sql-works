@@ -3,27 +3,26 @@ package com.sqlworks.dao;
 import com.sqlworks.model.Engineer;
 import org.apache.log4j.Logger;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EngineerDao implements GenericDao<Engineer, Long> {
+
+    private final DataSource ds;
+
     private String tableName;
     private static final Logger log = Logger.getLogger(EngineerDao.class);
-    private final Connection conn;
 
-    public EngineerDao(Connection conn, String tableName) {
-        this.conn = conn;
+    public EngineerDao(DataSource ds, String tableName) {
+        this.ds = ds;
         this.tableName = tableName;
-    }
-
-    public EngineerDao() {
-        this.conn = ConnectionToDB.connect();
     }
 
     @Override
     public Engineer getByName(String firstName, String lastName) {
-        try (Connection connection = conn) {
+        try (Connection connection = ds.getConnection()){
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM " + tableName + " WHERE firstName = ? AND lastName = ?;");
             statement.setString(1, firstName);
@@ -38,7 +37,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
 
     @Override
     public Engineer getById(Long id) {
-        try (Connection connection = conn) {
+        try (Connection connection = ds.getConnection()){
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM " + tableName + " WHERE id = ?;");
             statement.setLong(1, id);
@@ -53,7 +52,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
     @Override
     public List<Engineer> getAll() {
         List<Engineer> userList = new ArrayList<>();
-        try (Connection connection = conn) {
+        try (Connection connection = ds.getConnection()){
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
                     "SELECT * FROM " + tableName + " ;");
@@ -68,7 +67,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
 
     @Override
     public boolean deleteById(Long id) {
-        try (Connection connection = conn) {
+        try (Connection connection = ds.getConnection()){
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM " + tableName + " WHERE id = ?;");
             statement.setLong(1, id);
@@ -79,8 +78,8 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
         }
     }
 
-    public boolean deleteByName(String firstName, String lastName){
-        try (Connection connection = conn) {
+    public boolean deleteByName(String firstName, String lastName) {
+        try (Connection connection = ds.getConnection()){
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM " + tableName + " WHERE firstName = ? AND lastName = ?;");
             statement.setString(1, firstName);
@@ -98,7 +97,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
     }
 
     protected Long insert(Engineer entity) {
-        try (Connection connection = conn) {
+        try (Connection connection = ds.getConnection()){
             PreparedStatement statement = connection.prepareStatement("INSERT INTO " + tableName +
                     " (firstName, lastName, major, tel) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, entity.getFirstName());
@@ -120,7 +119,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
     }
 
     protected Long update(Engineer entity) {
-        try (Connection connection = conn) {
+        try (Connection connection = ds.getConnection()){
             PreparedStatement statement = connection.prepareStatement("UPDATE " + tableName +
                     " SET firstName = ?, lastName = ?, major = ?, tel = ? WHERE id = ?;");
             statement.setString(1, entity.getFirstName());
@@ -146,7 +145,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
         return (entity.getId() == null);
     }
 
-        private Engineer create(ResultSet result) throws SQLException {
+    private Engineer create(ResultSet result) throws SQLException {
         long id = result.getLong("id");
         String firstName = result.getString("firstName");
         String lastName = result.getString("lastName");
@@ -155,7 +154,11 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
         return new Engineer(id, firstName, lastName, major, tel);
     }
 
-    public Engineer[] getCustom(){
+    public DataSource getDatasource() {
+        return ds;
+    }
+
+    public Engineer[] getCustom() {
         //TODO: realize method in accordance to checkbox!!!
         return null;
     }

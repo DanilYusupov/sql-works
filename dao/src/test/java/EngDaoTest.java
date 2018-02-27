@@ -3,28 +3,28 @@ import com.opentable.db.postgres.junit.SingleInstancePostgresRule;
 import com.sqlworks.dao.DaoException;
 import com.sqlworks.dao.EngineerDao;
 import com.sqlworks.model.Engineer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
 public class EngDaoTest {
-    //TODO: Попробуй решить задлачу от обратного! Верни на место ДАО и добавь перегруженный метод коннект, где на вход ты подаешь порт
-    //TODO: а так как порт всегда рандомный, то его надо брать из embeddedDB!
+
+
     private final String firstName = "Ivan";
     private final String lastName = "Ivanov";
     private final String major = "structure";
     private final Long tel = 89001234567L;
     private final long userId = 0;
-    private final String tableName = "crud.test_engineer_table";
+    private final String tableName = "test_engineer_table";
     private final Engineer engineer = new Engineer(firstName, lastName, major, tel);
     private EngineerDao dao;
 
@@ -33,15 +33,24 @@ public class EngDaoTest {
 
     @Before
     public void init() throws SQLException {
-        Map<String, String> props = new HashMap();
-        props.put("PGPORT", "5432");
-        dao = new EngineerDao(epg.getEmbeddedPostgres().getDatabase("cruder", "crud", props)
-                .getConnection("cruder", "p@ssw0rd"), tableName);
+        DataSource dataSource = epg.getEmbeddedPostgres().getPostgresDatabase();
+        dao = new EngineerDao(dataSource, tableName);
+        try (Connection connection = dao.getDatasource().getConnection()) {
+            Statement s = connection.createStatement();
+            s.executeUpdate("CREATE TABLE " + tableName + " (" +
+                    "    id SERIAL PRIMARY KEY," +
+                    "    firstName TEXT NOT NULL," +
+                    "    lastName TEXT NOT NULL," +
+                    "    major VARCHAR(40)," +
+                    "    tel BIGINT)");
+        }
+
+        System.out.println("Created test table.");
     }
 
     @Test
     public void testRule() throws Exception {
-        try (Connection c = epg.getEmbeddedPostgres().getPostgresDatabase().getConnection()){
+        try (Connection c = epg.getEmbeddedPostgres().getPostgresDatabase().getConnection()) {
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery("SELECT 1");
             assertTrue(rs.next());
@@ -124,5 +133,13 @@ public class EngDaoTest {
         } catch (DaoException e) {
             assertEquals("Error removing entity with ID = " + userId, e.getMessage());
         }
+    }
+
+    @After
+    public void end() throws SQLException {
+        try (Connection connection = dao.getDatasource().getConnection()){
+            Statement s = connection.createStatement();
+            s.executeUpdate("DROP TABLE " + tableName + ";");}
+        System.out.println("Testing performed. Dropping test table. Closing thread.");
     }
 }

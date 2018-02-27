@@ -3,14 +3,20 @@ package com.sqlworks.service;
 import com.sqlworks.dao.DaoException;
 import com.sqlworks.dao.EngineerDao;
 import com.sqlworks.model.Engineer;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
+import javax.sql.DataSource;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Properties;
 
 public class EngineerService {
     //TODO: make embedded psql launch while flyway goals!
-    private final EngineerDao dao = new EngineerDao(getTableName());
+    private final EngineerDao dao;
+
+    public EngineerService() {
+        dao = new EngineerDao(getDataSource(), getTableName());
+    }
 
     public EngineerDao getDao() {
         return dao;
@@ -23,7 +29,7 @@ public class EngineerService {
             return properties.getProperty("dao.engineer.tablename");
         } catch (IOException e) {
             throw new DaoException("Cannot read table name from 'dao.project.tablename " +
-                    "from file db.properties", e);
+                    "from file hikari.properties", e);
         }
     }
 
@@ -73,5 +79,10 @@ public class EngineerService {
         } else {
             return "No such engineer!!!";
         }
+    }
+
+    private DataSource getDataSource(){
+        HikariConfig config = new HikariConfig("/hikari.properties");
+        return new HikariDataSource(config);
     }
 }
