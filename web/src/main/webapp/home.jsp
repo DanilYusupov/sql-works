@@ -8,7 +8,6 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href=css/switch.css">
 </head>
 <body data-spy="scroll" data-target=".list-group" data-offset="50">
 
@@ -24,7 +23,7 @@
                 </button>
             </div>
             <div class="modal-body">
-               <%=request.getSession().getAttribute("message")%>
+                <%=request.getSession().getAttribute("message")%>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -276,11 +275,13 @@
                     <%--col pr-5 text-center--%>
 
                     <div id="spy-1" class="col mx-3 h5 list-group">
-                            <button type="reset" class="btn btn-secondary">Clear</button>
-                            <button type="submit" class="btn btn-primary">Get information</button>
+                        <button type="reset" class="btn btn-secondary">Clear</button>
+                        <button type="submit" class="btn btn-primary">Get information</button>
                     </div>
                 </div>
             </form>
+            <button class="btn btn-primary" id="testButton">Click</button>
+            <div id="result1" style="width: 200px; height: 50px"></div>
         </div>
     </div>
 
@@ -302,11 +303,16 @@
             <tbody>
             <% for (Engineer man : list) { %>
             <tr>
-                <th scope="row"><%=man.getId()%></th>
-                <td><%=man.getFirstName()%></td>
-                <td><%=man.getLastName()%></td>
-                <td><%=man.getMajor()%></td>
-                <td><%=man.getTel()%></td>
+                <th scope="row"><%=man.getId()%>
+                </th>
+                <td><%=man.getFirstName()%>
+                </td>
+                <td><%=man.getLastName()%>
+                </td>
+                <td><%=man.getMajor()%>
+                </td>
+                <td><%=man.getTel()%>
+                </td>
             </tr>
             <% } %>
             </tbody>
@@ -315,8 +321,9 @@
     <% } %>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+<script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -325,36 +332,48 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script type="text/javascript">
-$('#myModal').modal('show');
+    $('#myModal').modal('show');
 
 
 </script>
 <script type="text/javascript">
-$('#tableModal').modal('show');
+    $('#tableModal').modal('show');
 
 </script>
 <script type="text/javascript">
-$('#all').click(function() {
-    $('#engId, #engFullName, #engFirstName, #engLastName, #engMajor, #engTel').prop('checked', this.checked);
-});
+    $('#all').click(function () {
+        $('#engId, #engFullName, #engFirstName, #engLastName, #engMajor, #engTel').prop('checked', this.checked);
+    });
 
-$('#engFullName').click(function() {
-    $('#engFullName, #engFirstName, #engLastName').prop('checked', this.checked);
-});
+    $('#engFullName').click(function () {
+        $('#engFullName, #engFirstName, #engLastName').prop('checked', this.checked);
+    });
 
-$('#engFirstName, #engLastName').click(function() {
-    if (!$(this).is(':checked')){
-        $('#engFullName').prop('checked', false);
+    $('#engFirstName, #engLastName').click(function () {
+        if (!$(this).is(':checked')) {
+            $('#engFullName').prop('checked', false);
         }
-});
+    });
 
-$('#engId, #engFullName, #engFirstName, #engLastName, #engMajor, #engTel').click(function() {
-    if (!$(this).is(':checked')){
-        $('#all').prop('checked', false);
+    $('#engId, #engFullName, #engFirstName, #engLastName, #engMajor, #engTel').click(function () {
+        if (!$(this).is(':checked')) {
+            $('#all').prop('checked', false);
         }
-});
-
-
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#testButton').click(function () {
+            $.ajax({
+                url: 'Ajax',
+                type: 'GET',
+                data: {text: data},
+                success: function (result) {
+                    $('#result1').html(result)
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>
