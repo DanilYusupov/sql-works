@@ -1,7 +1,6 @@
 package com.sqlworks.web;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

@@ -280,9 +280,8 @@
                     </div>
                 </div>
             </form>
-            <input type="text" class="form-control" id="testIn"
-                   aria-describedby="emailHelp" placeholder="110452" name="testId" value=""
-                   required>
+            <input type="text" class="form-control" id="testIn" aria-describedby="emailHelp" placeholder="110452"
+                   value="" required>
             <button class="btn btn-primary" id="testButton">Click</button>
             <div id="result1" style="width: 200px; height: 50px"></div>
         </div>
@@ -366,11 +365,12 @@
 </script>
 <script type="text/javascript">
     $(document).on("click", "#testButton", function () {
-        var idIn = document.getElementById('#testIn').value;
-        $.get("/ajax", { id: idIn})
-            .done(function (data) {
-                $('#result1').text(data['firstName'] + ' ' + data['lastName'] + '. Major: ' + data['major'] + '.')
-            })
+        var idIn = document.getElementById('testIn').value;
+        var urlIn = "/ajax?id=" + idIn;
+        $.get(urlIn, function (responseJson) {
+                $('#result1').text(responseJson['firstName'] + ' ' + responseJson['lastName'] + ". Major: "
+                    + responseJson['major'] + '.');
+        });
     });
 </script>
 </body>
