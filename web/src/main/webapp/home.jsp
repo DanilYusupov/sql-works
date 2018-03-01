@@ -363,8 +363,8 @@
 </script>
 <script type="text/javascript">
     $(document).on("click", "#testButton", function () {
-        $.get("/ajax", function (responseText) {
-            $("#result1").text(responseText);
+        $.getJSON("/ajax", function (responseJson) {
+            $("#result1").text(responseJson['firstName'] + ' ' + responseJson['lastName']);
         });
     });
 </script>
