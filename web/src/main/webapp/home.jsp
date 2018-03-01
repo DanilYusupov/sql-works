@@ -17,7 +17,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Message</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -362,16 +362,9 @@
     });
 </script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#testButton').click(function () {
-            $.ajax({
-                url: 'Ajax',
-                type: 'GET',
-                data: {text: data},
-                success: function (result) {
-                    $('#result1').html(result)
-                }
-            });
+    $(document).on("click", "#testButton", function () {
+        $.get("/ajax", function (responseText) {
+            $("#result1").text(responseText);
         });
     });
 </script>
