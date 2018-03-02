@@ -11,7 +11,6 @@ public class ReadEngineer extends HttpServlet implements WebLogger, Service {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String fullName = request.getParameter("readFullName");
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         String json = new Gson().toJson(service.getByName(fullName));

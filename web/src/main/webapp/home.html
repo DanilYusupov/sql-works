@@ -1,30 +1,28 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.sqlworks.model.Engineer" %>
 <!DOCTYPE html>
-<%@ page pageEncoding="UTF-8" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href=css/switch.css">
 </head>
-<body>
+<body data-spy="scroll" data-target=".list-group" data-offset="50">
 
-<% if (request.getSession().getAttribute("message") != null) { %>
-<!-- Modal message -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="readByIdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="modalLabel">Engineer</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-               <%=request.getSession().getAttribute("message")%>
+                <div id="readFirstName"></div>
+                <div id="readLastName"></div>
+                <div id="readMajor"></div>
+                <div id="readTel"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -32,7 +30,41 @@
         </div>
     </div>
 </div>
-<% } %>
+
+<div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tableModalLabel">Engineers table</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container" data-spy="scroll" data-target="#spy-1"
+                     style="padding-top: 2%; padding-bottom:0%;">
+                    <table id="engineerTable" class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">First name</th>
+                            <th scope="col">Last name</th>
+                            <th scope="col">Major</th>
+                            <th scope="col">Phone</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="jumbotron bg-dark rounded-0" style="height: 134px">
     <div class="display-4"><span style="color: #007bff">CRUD</span> <span class="text-light">interface</span>
@@ -62,14 +94,16 @@
                 <div class="form-row">
                     <div class="col-">
                         <label for="major">Major:</label>
-                        <input type="text" class="form-control" id="major" name="major" placeholder="Mechanic" value=""
+                        <input type="text" class="form-control" id="major" name="major" placeholder="Mechanic"
+                               value=""
                                required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-">
                         <label for="tel">Phone number:</label>
-                        <input type="text" class="form-control" id="tel" name="tel" placeholder="+780012345678" value=""
+                        <input type="text" class="form-control" id="tel" name="tel" placeholder="+780012345678"
+                               value=""
                                required>
                     </div>
                 </div>
@@ -88,18 +122,76 @@
 
         <div class="col mx-3 border rounded">
             <h2 class="text-center"><span style="color: #007bff">R</span>ead engineer</h2>
-            <form action="/read_engineer" method="post">
-                <div class="form-group">
-                    <label for="readFullName">Full name:</label>
-                    <input type="text" class="form-control" id="readFullName"
-                           aria-describedby="nameHelp" placeholder="Ivan Ivanov" name="readFullName" value="" required>
-                    <small id="readHelp" class="form-text text-muted">Only full name of engineer</small>
+            <div id="accordion1">
+
+                <!--Read by full name-->
+
+                <div class="card">
+                    <div class="card-header" id="firstHead" style="padding: unset !important;">
+                        <h5 class="mb-0">
+                            <button class="btn btn-dark" data-toggle="collapse" data-target="#collapseFirst"
+                                    aria-expanded="true" aria-controls="collapseOne" style="width: 100%">
+                                <h5>By name:</h5>
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFirst" class="collapse show" aria-labelledby="firstHead"
+                         data-parent="#accordion1">
+                        <div class="card-body">
+                            <div class="alert alert-danger alert-dismissible fade show" id="readError" role="alert" style="display: none">
+                                There is no such engineer!
+                                <button type="button" class="close" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label for="readFullName">Engineer's full name:</label>
+                                <input type="text" class="form-control" id="readFullName"
+                                       aria-describedby="nameHelp" placeholder="Ivan Ivanov" name="readFullName"
+                                       value="" required>
+                                <small id="readHelp" class="form-text text-muted">Only full name of engineer</small>
+                            </div>
+                            <div class="row justify-content-center">
+                                <button id="readByFullNameBtn" class="btn btn-dark">Read</button>
+                            </div>
+                                                    </div>
+                    </div>
                 </div>
-                <div class="row justify-content-center">
-                    <button type="submit" class="btn btn-dark">Read</button>
+
+                <!--Read by Id-->
+
+                <div class="card">
+                    <div class="card-header" id="secondHead" style="padding: unset !important;">
+                        <h5 class="mb-0">
+                            <button class="btn btn-dark" data-toggle="collapse" data-target="#collapseSecond"
+                                    aria-expanded="true" aria-controls="collapseOne" style="width: 100%">
+                                <h5>By identifier:</h5>
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseSecond" class="collapse" aria-labelledby="secondHead"
+                         data-parent="#accordion1">
+                        <div class="card-body">
+                            <div class="alert alert-danger alert-dismissible fade show" id="readIdError" role="alert" style="display: none">
+                                There is no such engineer!
+                                <button type="button" class="close" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label for="readByIdIn">Engineer's identifier:</label>
+                            <input type="text" class="form-control" id="readByIdIn"
+                                   aria-describedby="nameHelp" placeholder="123" name="readByIdIn"
+                                   value="" required>
+                            <small id="readIdHelp" class="form-text text-muted">Id of engineer</small>
+                            </div>
+                            <div class="row justify-content-center">
+                                <button id="readByIdBtn" class="btn btn-dark">Read</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
-            <br>
+            </div>
         </div>
 
         <!--Update engineer-->
@@ -156,7 +248,7 @@
 
         <div class="col mx-3 border rounded">
             <h2 class="text-center"><span style="color: #007bff">D</span>elete engineer</h2>
-            <div id="accordion">
+            <div id="accordion2">
 
                 <!--Delete by name-->
 
@@ -171,12 +263,12 @@
                     </div>
 
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                         data-parent="#accordion">
+                         data-parent="#accordion2">
                         <br>
                         <div class="col">
                             <form action="/delete_engineer" method="post">
                                 <div class="form-group">
-                                    <label for="fullNameRemoval">Full name:</label>
+                                    <label for="fullNameRemoval">Engineer's full name:</label>
                                     <input type="text" class="form-control" id="fullNameRemoval"
                                            aria-describedby="nameHelp" placeholder="Ivan Ivanov" name="fullName"
                                            value="" required>
@@ -203,14 +295,15 @@
                             </button>
                         </h5>
                     </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion2">
                         <br>
                         <div class="col">
                             <form action="/delete_engineer" method="post">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Engineer identifier:</label>
+                                    <label for="exampleInputEmail1">Engineer's identifier:</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1"
-                                           aria-describedby="emailHelp" placeholder="110452" name="idOnDelete" value=""
+                                           aria-describedby="emailHelp" placeholder="110452" name="idOnDelete"
+                                           value=""
                                            required>
                                     <small id="emailHelp" class="form-text text-muted">For database holder only
                                     </small>
@@ -229,18 +322,13 @@
     <!--SQL toolbar-->
 
     <div class="container" style="padding-top: 2%; padding-bottom:0%; max-width: 60%;">
-        <div class="text-center" style="padding-bottom: 1%;">Table output selector</div>
+        <div class="text-center" style="padding-bottom: 1%;"><h2>Table output selector</h2></div>
         <div class="border rounded">
             <form action="/get_all" method="post">
                 <div class="row align-items-center" style="padding-top: 2%; padding-bottom:2%;">
                     <!--Choosing-->
 
                     <div class="col mx-3 h5" style="border-right: 1px solid #dee2e6; height: 100%;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="all" name="all">
-                            <label class="custom-control-label" for="all">Select all</label>
-                        </div>
-
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="engId" name="engId">
                             <label class="custom-control-label" for="engId">Engineer id</label>
@@ -252,7 +340,8 @@
                         </div>
 
                         <div class="custom-control custom-checkbox ml-4">
-                            <input type="checkbox" class="custom-control-input" id="engFirstName" name="engFirstName">
+                            <input type="checkbox" class="custom-control-input" id="engFirstName"
+                                   name="engFirstName">
                             <label class="custom-control-label" for="engFirstName">Engineer first name</label>
                         </div>
 
@@ -273,50 +362,20 @@
                     </div>
 
                     <!--Buttons-->
-                    <!--col pr-5 text-center-->
-
-                    <div id="spy-1" class="list-group">
-                            <button type="reset" class="btn btn-secondary">Clear</button>
-                            <button type="submit" class="btn btn-primary">Get information</button>
+                    <div id="spy-1" class="col mx-3 h5 list-group">
+                        <button type="reset" class="btn btn-secondary">Clear</button>
+                        <button type="submit" class="btn btn-primary">Get information</button>
                     </div>
                 </div>
             </form>
+            <button id="getAllBtn" class="btn btn-dark" style="width: 100%">Get all engineers</button>
         </div>
     </div>
-
-    <%
-        List<Engineer> list = (List<Engineer>) request.getSession().getAttribute("table");
-        if (list != null) {
-    %>
-    <div class="container" data-spy="scroll" data-target="#spy-1" style="padding-top: 2%; padding-bottom:0%;">
-        <table id="table" class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
-                <th scope="col">Major</th>
-                <th scope="col">Phone</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% for (Engineer man : list) { %>
-            <tr>
-                <th scope="row"><%=man.getId()%></th>
-                <td><%=man.getFirstName()%></td>
-                <td><%=man.getLastName()%></td>
-                <td><%=man.getMajor()%></td>
-                <td><%=man.getTel()%></td>
-            </tr>
-            <% } %>
-            </tbody>
-        </table>
-    </div>
-    <% } %>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+<script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -324,37 +383,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-<script type="text/javascript">
-$('#myModal').modal('show');
+<script src="js/myScript.js"></script>
 
-
-</script>
-<script type="text/javascript">
-$('#tableModal').modal('show');
-
-</script>
-<script type="text/javascript">
-$('#all').click(function() {
-    $('#engId, #engFullName, #engFirstName, #engLastName, #engMajor, #engTel').prop('checked', this.checked);
-});
-
-$('#engFullName').click(function() {
-    $('#engFullName, #engFirstName, #engLastName').prop('checked', this.checked);
-});
-
-$('#engFirstName, #engLastName').click(function() {
-    if (!$(this).is(':checked')){
-        $('#engFullName').prop('checked', false);
-        }
-});
-
-$('#engId, #engFullName, #engFirstName, #engLastName, #engMajor, #engTel').click(function() {
-    if (!$(this).is(':checked')){
-        $('#all').prop('checked', false);
-        }
-});
-
-
-</script>
 </body>
 </html>
+
