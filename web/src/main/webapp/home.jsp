@@ -11,19 +11,21 @@
 </head>
 <body data-spy="scroll" data-target=".list-group" data-offset="50">
 
-<% if (request.getSession().getAttribute("message") != null) { %>
-<!-- Modal message -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="readByIdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+                <h5 class="modal-title" id="modalLabel">Engineer</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <%=request.getSession().getAttribute("message")%>
+                <p id="readFirstName"></p>
+                <p id="readLastName"></p>
+                <p id="readMajor"></p>
+                <p id="readTel"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -31,7 +33,6 @@
         </div>
     </div>
 </div>
-<% } %>
 
 <div class="jumbotron bg-dark rounded-0" style="height: 134px">
     <div class="display-4"><span style="color: #007bff">CRUD</span> <span class="text-light">interface</span>
@@ -87,18 +88,60 @@
 
         <div class="col mx-3 border rounded">
             <h2 class="text-center"><span style="color: #007bff">R</span>ead engineer</h2>
-            <form action="/read_engineer" method="post">
-                <div class="form-group">
-                    <label for="readFullName">Full name:</label>
-                    <input type="text" class="form-control" id="readFullName"
-                           aria-describedby="nameHelp" placeholder="Ivan Ivanov" name="readFullName" value="" required>
-                    <small id="readHelp" class="form-text text-muted">Only full name of engineer</small>
+            <div id="accordion1">
+
+                <!--Read by full name-->
+
+                <div class="card">
+                    <div class="card-header" id="firstHead" style="padding: unset !important;">
+                        <h5 class="mb-0">
+                            <button class="btn btn-dark" data-toggle="collapse" data-target="#collapseFirst"
+                                    aria-expanded="true" aria-controls="collapseOne" style="width: 100%">
+                                <h5>By name:</h5>
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFirst" class="collapse show" aria-labelledby="firstHead" data-parent="#accordion1">
+                        <div class="card-body">
+                                <div class="form-group">
+                                    <label for="readFullName">Full name:</label>
+                                    <input type="text" class="form-control" id="readFullName"
+                                           aria-describedby="nameHelp" placeholder="Ivan Ivanov" name="readFullName"
+                                           value="" required>
+                                    <small id="readHelp" class="form-text text-muted">Only full name of engineer</small>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <button id="readByFullNameBtn" class="btn btn-dark">Read</button>
+                                </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row justify-content-center">
-                    <button type="submit" class="btn btn-dark">Read</button>
+
+                <!--Read by Id-->
+
+                <div class="card">
+                    <div class="card-header" id="secondHead" style="padding: unset !important;">
+                        <h5 class="mb-0">
+                            <button class="btn btn-dark" data-toggle="collapse" data-target="#collapseSecond"
+                                    aria-expanded="true" aria-controls="collapseOne" style="width: 100%">
+                                <h5>By identifier:</h5>
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseSecond" class="collapse" aria-labelledby="secondHead" data-parent="#accordion1">
+                        <div class="card-body">
+                            <input type="text" class="form-control" id="readByIdIn"
+                                   aria-describedby="nameHelp" placeholder="123" name="readByIdIn"
+                                   value="" required>
+                            <small id="readIdHelp" class="form-text text-muted">Id of engineer</small>
+                            <br>
+                            <div class="row justify-content-center">
+                                <button id="readByIdBtn" class="btn btn-dark">Read</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
-            <br>
+            </div>
         </div>
 
         <!--Update engineer-->
@@ -155,7 +198,7 @@
 
         <div class="col mx-3 border rounded">
             <h2 class="text-center"><span style="color: #007bff">D</span>elete engineer</h2>
-            <div id="accordion">
+            <div id="accordion2">
 
                 <!--Delete by name-->
 
@@ -170,7 +213,7 @@
                     </div>
 
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                         data-parent="#accordion">
+                         data-parent="#accordion2">
                         <br>
                         <div class="col">
                             <form action="/delete_engineer" method="post">
@@ -202,7 +245,7 @@
                             </button>
                         </h5>
                     </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion2">
                         <br>
                         <div class="col">
                             <form action="/delete_engineer" method="post">
@@ -228,7 +271,7 @@
     <!--SQL toolbar-->
 
     <div class="container" style="padding-top: 2%; padding-bottom:0%; max-width: 60%;">
-        <div class="text-center" style="padding-bottom: 1%;">Table output selector</div>
+        <div class="text-center" style="padding-bottom: 1%;"><h2>Table output selector</h2></div>
         <div class="border rounded">
             <form action="/get_all" method="post">
                 <div class="row align-items-center" style="padding-top: 2%; padding-bottom:2%;">
@@ -280,10 +323,6 @@
                     </div>
                 </div>
             </form>
-            <input type="text" class="form-control" id="testIn" aria-describedby="emailHelp" placeholder="110452"
-                   value="" required>
-            <button class="btn btn-primary" id="testButton">Click</button>
-            <div id="result1" style="width: 200px; height: 50px"></div>
         </div>
     </div>
 
@@ -333,15 +372,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-<script type="text/javascript">
-    $('#myModal').modal('show');
 
+<!--CheckBox script-->
 
-</script>
-<script type="text/javascript">
-    $('#tableModal').modal('show');
-
-</script>
 <script type="text/javascript">
     $('#all').click(function () {
         $('#engId, #engFullName, #engFirstName, #engLastName, #engMajor, #engTel').prop('checked', this.checked);
@@ -363,15 +396,34 @@
         }
     });
 </script>
+
+<!--Read engineer script-->
+
 <script type="text/javascript">
-    $(document).on("click", "#testButton", function () {
-        var idIn = document.getElementById('testIn').value;
-        var urlIn = "/ajax?id=" + idIn;
-        $.get(urlIn, function (responseJson) {
-                $('#result1').text(responseJson['firstName'] + ' ' + responseJson['lastName'] + ". Major: "
-                    + responseJson['major'] + '.');
+    $(document).on("click", "#readByIdBtn", function () {
+        var inletId = document.getElementById('readByIdIn').value;
+        var readIdUrl = "/ajax?id=" + inletId;
+        $.get(readIdUrl, function (responseJson) {
+            $('#readFirstName').text('First name: ' + responseJson['firstName']);
+            $('#readLastName').text('Last name: ' + responseJson['lastName']);
+            $('#readMajor').text("Major: " + responseJson['major']);
+            $('#readTel').text('Phone: ' + responseJson['tel']);
+            $('#readByIdModal').modal('show');
+        });
+    });
+
+    $(document).on("click", "#readByFullNameBtn", function () {
+        var fullName = document.getElementById('readFullName').value;
+        var readNameUrl = "/read_by_name?readFullName=" + fullName;
+        $.get(readNameUrl, function (responseJson) {
+            $('#readFirstName').text('First name: ' + responseJson['firstName']);
+            $('#readLastName').text('Last name: ' + responseJson['lastName']);
+            $('#readMajor').text("Major: " + responseJson['major']);
+            $('#readTel').text('Phone: ' + responseJson['tel']);
+            $('#readByIdModal').modal('show');
         });
     });
 </script>
+
 </body>
 </html>

@@ -37,7 +37,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>ReadEngineer</servlet-name>
-        <url-pattern>/read_engineer</url-pattern>
+        <url-pattern>/read_by_name</url-pattern>
     </servlet-mapping>
 
     <servlet>
