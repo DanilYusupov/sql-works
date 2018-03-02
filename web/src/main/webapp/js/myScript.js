@@ -15,35 +15,43 @@ $('#engFirstName, #engLastName').click(function () {
 //Places read by Id Engineer into modal
 $(document).on("click", "#readByIdBtn", function () {
     var inletId = document.getElementById('readByIdIn').value;
-    var readIdUrl = "/ajax?id=" + inletId;
-    $.get(readIdUrl, function (responseJson) {
-        if (responseJson == null){
-            $('#readIdError').show();
-        } else {
-            $('#readFirstName').text('First name: ' + responseJson['firstName']);
-            $('#readLastName').text('Last name: ' + responseJson['lastName']);
-            $('#readMajor').text("Major: " + responseJson['major']);
-            $('#readTel').text('Phone: ' + responseJson['tel']);
-            $('#readByIdModal').modal('show');
-        }
-    });
+    if (inletId === ''){
+        $('#readIdError').show();
+    } else {
+        var readIdUrl = "/ajax?id=" + inletId;
+        $.get(readIdUrl, function (responseJson) {
+            if (responseJson == null) {
+                $('#readIdError').show();
+            } else {
+                $('#readFirstName').text('First name: ' + responseJson['firstName']);
+                $('#readLastName').text('Last name: ' + responseJson['lastName']);
+                $('#readMajor').text("Major: " + responseJson['major']);
+                $('#readTel').text('Phone: ' + responseJson['tel']);
+                $('#readByIdModal').modal('show');
+            }
+        });
+    }
 });
 
 //Places read by fullName Engineer into modal
 $(document).on("click", "#readByFullNameBtn", function () {
     var fullName = document.getElementById('readFullName').value;
-    var readNameUrl = "/read_by_name?readFullName=" + fullName;
-    $.get(readNameUrl, function (responseJson) {
-        if (responseJson == null) {
-            $('#readError').show();
-        } else {
-            $('#readFirstName').text('First name: ' + responseJson['firstName']);
-            $('#readLastName').text('Last name: ' + responseJson['lastName']);
-            $('#readMajor').text("Major: " + responseJson['major']);
-            $('#readTel').text('Phone: ' + responseJson['tel']);
-            $('#readByIdModal').modal('show');
-        }
-    });
+    if (fullName === ''){
+        $('#readError').show();
+    } else {
+        var readNameUrl = "/read_by_name?readFullName=" + fullName;
+        $.get(readNameUrl, function (responseJson) {
+            if (responseJson == null) {
+                $('#readError').show();
+            } else {
+                $('#readFirstName').text('First name: ' + responseJson['firstName']);
+                $('#readLastName').text('Last name: ' + responseJson['lastName']);
+                $('#readMajor').text("Major: " + responseJson['major']);
+                $('#readTel').text('Phone: ' + responseJson['tel']);
+                $('#readByIdModal').modal('show');
+            }
+        });
+    }
 });
 
 /*

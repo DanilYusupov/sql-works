@@ -19,5 +19,6 @@ public class Ajax extends HttpServlet implements WebLogger, Service {
         } catch (NumberFormatException e){
             response.getWriter().write("null");
         }
+        //TODO:make faded animation on alert!
     }
 }
