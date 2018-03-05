@@ -1,4 +1,4 @@
 language: java
 script:
   - jdk_switcher use oraclejdk8
-  - mvn --show-version --batch-mode --errors --fail-at-end install
+  - mvn --show-version --batch-mode --errors --fail-at-end -Dci=true install
