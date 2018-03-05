@@ -11,12 +11,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <database.url>jdbc:postgresql://localhost:5432/crud</database.url>
-        <database.user>cruder</database.user>
-        <database.password>p@ssw0rd</database.password>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.sql-works</groupId>
@@ -41,73 +35,55 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>${flyway.version}</version>
-                <configuration>
-                    <sqlMigrationSeparator>__</sqlMigrationSeparator>
-                    <locations>
-                        <location>filesystem:src/main/resources/db/migration</location>
-                    </locations>
-                    <!--jdbc:h2:file:./target/foobar-->
-                    <url>${database.url}</url>
-                    <user>${database.user}</user>
-                    <password>${database.password}</password>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>${postgre.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>Migration</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>migrate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>exec-maven-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>PSQL-START</id>-->
-                        <!--<goals>-->
-                            <!--<goal>java</goal>-->
-                        <!--</goals>-->
-                        <!--<phase>pre-integration-test</phase>-->
-                        <!--<configuration>-->
-                            <!--<arguments>-->
-                                <!--<argument>0</argument>-->
-                            <!--</arguments>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                    <!--<execution>-->
-                        <!--<id>PSQL-STOP</id>-->
-                        <!--<goals>-->
-                            <!--<goal>java</goal>-->
-                        <!--</goals>-->
-                        <!--<phase>post-integration-test</phase>-->
-                        <!--<configuration>-->
-                            <!--<arguments>-->
-                                <!--<argument>1</argument>-->
-                            <!--</arguments>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<mainClass>com.sqlworks.service.migration.Executor</mainClass>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-        </plugins>
-    </build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <database.url>jdbc:postgresql://localhost/crud</database.url>
+                <database.user>cruder</database.user>
+                <database.password>p@ssw0rd</database.password>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.flywaydb</groupId>
+                        <artifactId>flyway-maven-plugin</artifactId>
+                        <configuration>
+                            <driver>org.postgresql.Driver</driver>
+                            <sqlMigrationSeparator>__</sqlMigrationSeparator>
+                            <locations>
+                                <location>filesystem:src/main/resources/db/migration</location>
+                            </locations>
+                            <url>${database.url}</url>
+                            <user>${database.user}</user>
+                            <password>${database.password}</password>
+                            <schemas>
+                                <schema>crud</schema>
+                            </schemas>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.postgresql</groupId>
+                                <artifactId>postgresql</artifactId>
+                                <version>${postgre.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>Migration</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>migrate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
