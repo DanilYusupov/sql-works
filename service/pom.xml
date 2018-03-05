@@ -38,9 +38,6 @@
     <profiles>
         <profile>
             <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <database.url>jdbc:postgresql://localhost/crud</database.url>
                 <database.user>cruder</database.user>
