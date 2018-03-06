@@ -1,7 +1,3 @@
-$('.alert .close').on('click', function(e) {
-    $(this).parent().hide();
-});
-
 //Checkbox gaming realization
 $('#engFullName').click(function () {
     $('#engFullName, #engFirstName, #engLastName').prop('checked', this.checked);
@@ -12,16 +8,42 @@ $('#engFirstName, #engLastName').click(function () {
     }
 });
 
-//Places read by Id Engineer into modal
+//Shows and then closes given element
+function autoClose(elementId, duration) {
+    setTimeout(function () {
+        $(elementId).alert('close');
+    }, duration);
+    $(elementId).alert();
+}
+
+//Deletes engineer by ID
+$(document).on("click", "#deleteByIdBtn", function () {
+    var deleteId = document.getElementById('deleteById').value;
+    if (deleteId === '') {
+        autoClose('#deleteIdError', 2000);
+    } else {
+        var readIdUrl = "/delete_engineer?id=" + deleteId;
+        $.get(readIdUrl, function (responseStatus) {
+            if (responseStatus === "null") {
+                autoClose('#deleteIdError', 2000);
+            } else {
+                $('#deleteSuccess').text(responseStatus);
+                autoClose('deleteIdSuccess', 2000);
+            }
+        });
+    }
+});
+
+//Puts read by Id Engineer into modal
 $(document).on("click", "#readByIdBtn", function () {
     var inletId = document.getElementById('readByIdIn').value;
-    if (inletId === ''){
-        $('#readIdError').show();
+    if (inletId === '') {
+        autoClose('#readIdError', 2000);
     } else {
         var readIdUrl = "/ajax?id=" + inletId;
         $.get(readIdUrl, function (responseJson) {
             if (responseJson == null) {
-                $('#readIdError').show();
+                autoClose('#readIdError', 2000);
             } else {
                 $('#readFirstName').text('First name: ' + responseJson['firstName']);
                 $('#readLastName').text('Last name: ' + responseJson['lastName']);
@@ -33,16 +55,16 @@ $(document).on("click", "#readByIdBtn", function () {
     }
 });
 
-//Places read by fullName Engineer into modal
+//Puts read by fullName Engineer into modal
 $(document).on("click", "#readByFullNameBtn", function () {
     var fullName = document.getElementById('readFullName').value;
-    if (fullName === ''){
-        $('#readError').show();
+    if (fullName === '') {
+        autoClose('#readError', 2000);
     } else {
         var readNameUrl = "/read_by_name?readFullName=" + fullName;
         $.get(readNameUrl, function (responseJson) {
             if (responseJson == null) {
-                $('#readError').show();
+                autoClose('#readError', 2000);
             } else {
                 $('#readFirstName').text('First name: ' + responseJson['firstName']);
                 $('#readLastName').text('Last name: ' + responseJson['lastName']);

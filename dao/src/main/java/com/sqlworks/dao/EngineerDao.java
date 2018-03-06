@@ -72,7 +72,6 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
                     "DELETE FROM " + tableName + " WHERE id = ?;");
             statement.setLong(1, id);
             return statement.executeUpdate() > 0;
-
         } catch (SQLException e) {
             throw new DaoException("Error removing entity with ID = " + id, e);
         }

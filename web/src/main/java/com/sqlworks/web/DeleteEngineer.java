@@ -7,6 +7,21 @@ import java.io.IOException;
 
 public class DeleteEngineer extends HttpServlet implements WebLogger, Service{
 
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            Long id = Long.valueOf(request.getParameter("id"));
+            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
+            if (service.getDao().deleteById(id)){
+                response.getWriter().write("Engineer with id: " + id + " is deleted.");
+            } else {
+                response.getWriter().write("null");
+            }
+        } catch (NumberFormatException e){
+            response.getWriter().write("null");
+        }
+    }
+
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         String fullName = request.getParameter("fullName");
