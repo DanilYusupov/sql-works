@@ -8,6 +8,28 @@
 </head>
 <body data-spy="scroll" data-target=".list-group" data-offset="50">
 
+<div id="dangerModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div id="dangerBody" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="successModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div id="successBody" class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="readByIdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -31,9 +53,10 @@
     </div>
 </div>
 
-<div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade bd-example-modal-lg" id="tableModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="tableModalLabel">Engineers table</h5>
@@ -74,48 +97,46 @@
 <div class="container" style="padding-top: 1.5%; padding-bottom:0%; max-width: 85%;">
     <div class="row align-items-start">
 
-        <!--Engineer creating field #007bff-->
+        <!--Create engineer #007bff-->
 
         <div class="col mx-3 border rounded">
             <h2 class="text-center"><span style="color: #007bff">C</span>reate engineer</h2>
-            <form action="/create_engineer" method="post">
-                <div class="form-row">
-                    <div class="col">
-                        <label for="firstName">First name:</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Ivan"
-                               value="" required>
-                    </div>
-                    <div class="col">
-                        <label for="lastName">Last name:</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Ivanov"
-                               value="" required>
-                    </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="firstName">First name:</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Ivan"
+                           value="" required>
                 </div>
-                <div class="form-row">
-                    <div class="col-">
-                        <label for="major">Major:</label>
-                        <input type="text" class="form-control" id="major" name="major" placeholder="Mechanic"
-                               value=""
-                               required>
-                    </div>
+                <div class="col">
+                    <label for="lastName">Last name:</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Ivanov"
+                           value="" required>
                 </div>
-                <div class="form-row">
-                    <div class="col-">
-                        <label for="tel">Phone number:</label>
-                        <input type="text" class="form-control" id="tel" name="tel" placeholder="+780012345678"
-                               value=""
-                               required>
-                    </div>
+            </div>
+            <div class="form-row">
+                <div class="col-">
+                    <label for="major">Major:</label>
+                    <input type="text" class="form-control" id="major" name="major" placeholder="Mechanic"
+                           value=""
+                           required>
                 </div>
-                <br>
-                <div class="row justify-content-center">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button class="btn btn-primary" type="submit">Create</button>
-                        <button class="btn btn-secondary" type="reset">Clear</button>
-                    </div>
+            </div>
+            <div class="form-row">
+                <div class="col-">
+                    <label for="tel">Phone number:</label>
+                    <input type="text" class="form-control" id="tel" name="tel" placeholder="+780012345678"
+                           value=""
+                           required>
                 </div>
-                <br>
-            </form>
+            </div>
+            <br>
+            <div class="row justify-content-center">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button class="btn btn-primary" id="createEngineer">Create</button>
+                    <button class="btn btn-secondary" id="resetEngineer">Clear</button>
+                </div>
+            </div>
+            <br>
         </div>
 
         <!--Reading engineer-->
@@ -138,9 +159,6 @@
                     <div id="collapseFirst" class="collapse show" aria-labelledby="firstHead"
                          data-parent="#accordion1">
                         <div class="card-body">
-                            <div class="alert alert-danger alert-dismissible fade show" id="readError" role="alert" hidden>
-                                There is no such engineer!
-                            </div>
                             <div class="form-group">
                                 <label for="readFullName">Engineer's full name:</label>
                                 <input type="text" class="form-control" id="readFullName"
@@ -169,9 +187,6 @@
                     <div id="collapseSecond" class="collapse" aria-labelledby="secondHead"
                          data-parent="#accordion1">
                         <div class="card-body">
-                            <div class="alert alert-danger alert-dismissible fade show" id="readIdError" role="alert" hidden>
-                                There is no such engineer!
-                            </div>
                             <div class="form-group">
                                 <label for="readByIdIn">Engineer's identifier:</label>
                                 <input type="text" class="form-control" id="readByIdIn"
@@ -192,7 +207,6 @@
 
         <div class="col mx-3 border rounded">
             <h2 class="text-center"><span style="color: #007bff">U</span>pdate engineer</h2>
-            <form action="/update_engineer" method="post">
                 <div class="form-row">
                     <div class="col-">
                         <label for="idUpdate">Existent id:</label>
@@ -204,38 +218,36 @@
                     <div class="col">
                         <label for="firstNameUpdate">First name:</label>
                         <input type="text" class="form-control" id="firstNameUpdate" name="firstNameUpdate"
-                               placeholder="Ivan">
+                               placeholder="Ivan" value="" required>
                     </div>
                     <div class="col">
                         <label for="lastNameUpdate">Last name:</label>
                         <input type="text" class="form-control" id="lastNameUpdate" name="lastNameUpdate"
-                               placeholder="Ivanov">
+                               placeholder="Ivanov" value="" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-">
                         <label for="majorUpdate">Major:</label>
                         <input type="text" class="form-control" id="majorUpdate" name="majorUpdate"
-                               placeholder="Mechanic">
+                               placeholder="Mechanic" value="">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-">
                         <label for="telUpdate">Phone number:</label>
                         <input type="text" class="form-control" id="telUpdate" name="telUpdate"
-                               placeholder="+780012345678">
+                               placeholder="+780012345678" value="">
                     </div>
                 </div>
                 <br>
                 <div class="row justify-content-center">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button class="btn btn-primary" type="submit">Update</button>
-                        <button class="btn btn-secondary" type="reset">Clear</button>
+                        <button class="btn btn-primary" id="updateEngineer">Update</button>
+                        <button class="btn btn-secondary" id="resetUpdation">Clear</button>
                     </div>
                 </div>
                 <br>
-            </form>
-
         </div>
 
         <!--Engineer deleting field-->
@@ -260,7 +272,6 @@
                          data-parent="#accordion2">
                         <br>
                         <div class="col">
-                            <form action="/delete_engineer" method="post">
                                 <div class="form-group">
                                     <label for="fullNameRemoval">Engineer's full name:</label>
                                     <input type="text" class="form-control" id="fullNameRemoval"
@@ -271,8 +282,9 @@
                                         deleted
                                     </small>
                                 </div>
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            <div class="row justify-content-center">
+                                <button id="deleteByNameBtn" class="btn btn-danger">Delete</button>
+                            </div>
                             <br>
                         </div>
                     </div>
@@ -293,18 +305,6 @@
                         <br>
                         <div class="col">
                             <div class="form-group">
-                                <div class="alert alert-danger alert-dismissible fade show" id="deleteIdError"
-                                     role="alert" style="display: none">
-                                    There is no such engineer to be deleted!
-                                </div>
-                                <div class="alert alert-success alert-dismissible fade show" id="deleteIdSuccess"
-                                     role="alert"
-                                     style="display: none">
-                                    <div id="deleteSuccess"></div>
-                                    <button type="button" class="close" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
                                 <label for="readByIdIn">Engineer's identifier:</label>
                                 <input type="text" class="form-control" id="deleteById"
                                        aria-describedby="nameHelp" placeholder="123" name="readByIdIn">

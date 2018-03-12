@@ -15,7 +15,6 @@ public class GetTable extends HttpServlet implements WebLogger, Service {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Engineer> list = service.getDao().getAll();
         String json = new Gson().toJson(list);
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
