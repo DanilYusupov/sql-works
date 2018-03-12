@@ -37,7 +37,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>ReadEngineer</servlet-name>
-        <url-pattern>/read_engineer</url-pattern>
+        <url-pattern>/read_by_name</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -58,4 +58,12 @@
         <url-pattern>/get_all</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Ajax</servlet-name>
+        <servlet-class>com.sqlworks.web.Ajax</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Ajax</servlet-name>
+        <url-pattern>/ajax</url-pattern>
+    </servlet-mapping>
 </web-app>

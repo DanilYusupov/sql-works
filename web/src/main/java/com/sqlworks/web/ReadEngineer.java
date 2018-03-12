@@ -1,21 +1,20 @@
 package com.sqlworks.web;
 
-import com.sqlworks.service.EngineerService;
+import com.google.gson.Gson;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ReadEngineer extends HttpServlet implements WebLogger {
+public class ReadEngineer extends HttpServlet implements WebLogger, Service {
 
-    private EngineerService service = new EngineerService();
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.setCharacterEncoding("UTF-8");
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String fullName = request.getParameter("readFullName");
-        request.getSession().setAttribute("message", service.getInfo(fullName));
-        response.sendRedirect("/home");
-        //TODO: add opportunity to read by id!
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        String json = new Gson().toJson(service.getByName(fullName));
+        response.getWriter().write(json);
     }
 
 }

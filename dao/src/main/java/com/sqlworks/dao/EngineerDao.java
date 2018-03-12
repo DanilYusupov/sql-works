@@ -55,7 +55,7 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
         try (Connection connection = ds.getConnection()){
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT * FROM " + tableName + " ;");
+                    "SELECT * FROM " + tableName + " ORDER BY id;");
             while (resultSet.next()) {
                 userList.add(create(resultSet));
             }
@@ -72,7 +72,6 @@ public class EngineerDao implements GenericDao<Engineer, Long> {
                     "DELETE FROM " + tableName + " WHERE id = ?;");
             statement.setLong(1, id);
             return statement.executeUpdate() > 0;
-
         } catch (SQLException e) {
             throw new DaoException("Error removing entity with ID = " + id, e);
         }

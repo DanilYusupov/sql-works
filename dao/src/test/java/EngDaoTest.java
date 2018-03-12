@@ -1,66 +1,44 @@
+import com.opentable.db.postgres.embedded.FlywayPreparer;
 import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
-import com.opentable.db.postgres.junit.SingleInstancePostgresRule;
+import com.opentable.db.postgres.junit.PreparedDbRule;
 import com.sqlworks.dao.DaoException;
 import com.sqlworks.dao.EngineerDao;
 import com.sqlworks.model.Engineer;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 import static org.junit.Assert.*;
 
 public class EngDaoTest {
 
+    private String firstName = "Ivan";
+    private String lastName = "Ivanov";
+    private String major = "structure";
+    private Long tel = 89001234567L;
+    private long userId = 0;
+    private Engineer engineer = new Engineer(firstName, lastName, major, tel);
 
-    private final String firstName = "Ivan";
-    private final String lastName = "Ivanov";
-    private final String major = "structure";
-    private final Long tel = 89001234567L;
-    private final long userId = 0;
-    private final String tableName = "test_engineer_table";
-    private final Engineer engineer = new Engineer(firstName, lastName, major, tel);
-    private EngineerDao dao;
+    /**
+     * Check, that table name in '/db.properties' matches with table name in '/db/V1__Create-test-table.sql' !
+     */
+    private String tableName;
+
+    public EngDaoTest() {
+        setTableName();
+    }
 
     @Rule
-    public SingleInstancePostgresRule epg = EmbeddedPostgresRules.singleInstance();
-
-    @Before
-    public void init() throws SQLException {
-        DataSource dataSource = epg.getEmbeddedPostgres().getPostgresDatabase();
-        dao = new EngineerDao(dataSource, tableName);
-        try (Connection connection = dao.getDatasource().getConnection()) {
-            Statement s = connection.createStatement();
-            s.executeUpdate("CREATE TABLE " + tableName + " (" +
-                    "    id SERIAL PRIMARY KEY," +
-                    "    firstName TEXT NOT NULL," +
-                    "    lastName TEXT NOT NULL," +
-                    "    major VARCHAR(40)," +
-                    "    tel BIGINT)");
-        }
-
-        System.out.println("Created test table.");
-    }
+    public PreparedDbRule db = EmbeddedPostgresRules.preparedDatabase(FlywayPreparer.forClasspathLocation("db"));
 
     @Test
-    public void testRule() throws Exception {
-        try (Connection c = epg.getEmbeddedPostgres().getPostgresDatabase().getConnection()) {
-            Statement s = c.createStatement();
-            ResultSet rs = s.executeQuery("SELECT 1");
-            assertTrue(rs.next());
-            assertEquals(1, rs.getInt(1));
-            assertFalse(rs.next());
-        }
-    }
-
-    @Test
-    public void testCrateUser() {
+    public void testCrateUser(){
+        EngineerDao dao = new EngineerDao(db.getTestDatabase(), tableName);
         Long id = dao.save(engineer);
         assertNotNull(id);
         Engineer saved = dao.getById(id);
@@ -73,6 +51,7 @@ public class EngDaoTest {
 
     @Test
     public void testUpdateUser() {
+        EngineerDao dao = new EngineerDao(db.getTestDatabase(), tableName);
         String updateMajor = "Developer";
         long id = dao.save(engineer);
         Engineer toUpdate = dao.getById(id);
@@ -85,6 +64,7 @@ public class EngDaoTest {
 
     @Test
     public void testGetUser() {
+        EngineerDao dao = new EngineerDao(db.getTestDatabase(), tableName);
         long id = dao.save(engineer);
         Engineer user = dao.getById(id);
         assertEquals(firstName, user.getFirstName());
@@ -101,6 +81,7 @@ public class EngDaoTest {
 
     @Test
     public void testDeleteUser() {
+        EngineerDao dao = new EngineerDao(db.getTestDatabase(), tableName);
         long id = dao.save(engineer);
         dao.deleteById(id);
 
@@ -109,6 +90,7 @@ public class EngDaoTest {
 
     @Test
     public void testCreatingExistentUser() {
+        EngineerDao dao = new EngineerDao(db.getTestDatabase(), tableName);
         long id = dao.save(engineer);
         dao.save(engineer);
 
@@ -118,6 +100,7 @@ public class EngDaoTest {
 
     @Test
     public void testGettingNonexistentUser() {
+        EngineerDao dao = new EngineerDao(db.getTestDatabase(), tableName);
         try {
             dao.getById(userId);
         } catch (DaoException e) {
@@ -128,6 +111,7 @@ public class EngDaoTest {
 
     @Test
     public void testDeletingNonexistentUser() {
+        EngineerDao dao = new EngineerDao(db.getTestDatabase(), tableName);
         try {
             dao.deleteById(userId);
         } catch (DaoException e) {
@@ -135,11 +119,13 @@ public class EngDaoTest {
         }
     }
 
-    @After
-    public void end() throws SQLException {
-        try (Connection connection = dao.getDatasource().getConnection()){
-            Statement s = connection.createStatement();
-            s.executeUpdate("DROP TABLE " + tableName + ";");}
-        System.out.println("Testing performed. Dropping test table. Closing thread.");
+    private void setTableName() {
+        Properties properties = new Properties();
+        try {
+            properties.load(EngDaoTest.class.getResourceAsStream("/db.properties"));
+            this.tableName = properties.getProperty("table.name");
+        } catch (IOException e) {
+            throw new DaoException("Cannot get name for tests table: ", e);
+        }
     }
 }
