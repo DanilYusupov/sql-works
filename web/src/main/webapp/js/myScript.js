@@ -94,27 +94,6 @@ $(document).on("click", "#readByFullNameBtn", function () {
     }
 });
 
-/*
-Moves all Engineer entities in a table & places it in the modal. It's also deleting all appended childs before
-appending new one (refresh maintenance).
-*/
-$(document).on("click", "#getAllBtn", function () {
-    $.get("/get_all", function (responseJson) {
-        var table = document.getElementById('tableBody');
-        while (table.firstChild) {
-            table.removeChild(table.firstChild);
-        }
-        $.each(responseJson, function (index, item) {
-            var $tr = $('<tr>').appendTo($('#tableBody'));
-            $("<td>").text(item['id']).appendTo($tr);
-            $("<td>").text(item['firstName']).appendTo($tr);
-            $("<td>").text(item['lastName']).appendTo($tr);
-            $("<td>").text(item['major']).appendTo($tr);
-            $("<td>").text(item['tel']).appendTo($tr);
-        });
-        $('#tableModal').modal('show');
-    });
-});
 
 //Creating engineer
 $(document).on("click", "#createEngineer", function () {
@@ -150,14 +129,14 @@ $(document).on("click", "#updateEngineer", function () {
     var lastName = document.getElementById('lastNameUpdate').value;
     var major = document.getElementById('majorUpdate').value;
     var tel = document.getElementById('telUpdate').value;
-    if(id === '' || firstName === '' || lastName === ''){
+    if (id === '' || firstName === '' || lastName === '') {
         $('#dangerBody').text('Define id & full name at minimum.');
         $('#dangerModal').modal('show');
     } else {
         var updateUrl = "/update_engineer?id="
             + id + "&firstName=" + firstName + "&lastName=" + lastName + "&major=" + major + "&tel=" + tel;
         $.get(updateUrl, function (message) {
-            if (message === "false"){
+            if (message === "false") {
                 $('#dangerBody').text('No such engineer with id = ' + id);
                 $('#dangerModal').modal('show');
             } else {
@@ -175,4 +154,84 @@ $(document).on("click", "#resetUpdation", function () {
     document.getElementById('lastNameUpdate').value = "";
     document.getElementById('majorUpdate').value = "";
     document.getElementById('telUpdate').value = "";
+});
+
+/*
+Moves all Engineer entities in a table & places it in the modal. It's also deleting all appended childs before
+appending new one (refresh maintenance).
+*/
+$(document).on("click", "#getAllBtn", function () {
+    $.get("/get_all", function (responseJson) {
+        var table = document.getElementById('table');
+        while (table.firstChild) {
+            table.removeChild(table.firstChild);
+        }
+        var thead = $("<thead>").attr('class', 'thead-dark').appendTo(table);
+        var tr = $("<tr>").appendTo(thead);
+        $("<th>").attr('scope', 'col').text('Id').appendTo(tr);
+        $("<th>").attr('scope', 'col').text('First name').appendTo(tr);
+        $("<th>").attr('scope', 'col').text('Last name').appendTo(tr);
+        $("<th>").attr('scope', 'col').text('Major').appendTo(tr);
+        $("<th>").attr('scope', 'col').text('Phone').appendTo(tr);
+        var tbody = $("<tbody>").appendTo(table);
+        $.each(responseJson, function (index, item) {
+            var $tr = $('<tr>').appendTo(tbody);
+            $("<td>").text(item['id']).appendTo($tr);
+            $("<td>").text(item['firstName']).appendTo($tr);
+            $("<td>").text(item['lastName']).appendTo($tr);
+            $("<td>").text(item['major']).appendTo($tr);
+            $("<td>").text(item['tel']).appendTo($tr);
+        });
+        $('#tableModal').modal('show');
+    });
+});
+
+
+//TABLE OUTPUT SELECTOR API
+
+
+$(document).on("click", "#getCustomTable", function () {
+    $.get("/get_all", function (responseJson) {
+        var table = document.getElementById('table');
+        while (table.firstChild) {
+            table.removeChild(table.firstChild);
+        }
+        var thead = $("<thead>").attr('class', 'thead-dark').appendTo(table);
+        var tr = $("<tr>").appendTo(thead);
+        if ($('#engId').is(':checked')) {
+            $("<th>").attr('scope', 'col').text('Id').appendTo(tr);
+        }
+        if ($('#engFirstName').is(':checked')) {
+            $("<th>").attr('scope', 'col').text('First name').appendTo(tr);
+        }
+        if ($('#engLastName').is(':checked')) {
+            $("<th>").attr('scope', 'col').text('Last name').appendTo(tr);
+        }
+        if ($('#engMajor').is(':checked')) {
+            $("<th>").attr('scope', 'col').text('Major').appendTo(tr);
+        }
+        if ($('#engTel').is(':checked')) {
+            $("<th>").attr('scope', 'col').text('Phone').appendTo(tr);
+        }
+        var tbody = $("<tbody>").appendTo(table);
+        $.each(responseJson, function (index, item) {
+            var $tr = $('<tr>').appendTo(tbody);
+            if ($('#engId').is(':checked')) {
+                $("<td>").text(item['id']).appendTo($tr);
+            }
+            if ($('#engFirstName').is(':checked')) {
+                $("<td>").text(item['firstName']).appendTo($tr);
+            }
+            if ($('#engLastName').is(':checked')) {
+                $("<td>").text(item['lastName']).appendTo($tr);
+            }
+            if ($('#engMajor').is(':checked')) {
+                $("<td>").text(item['major']).appendTo($tr);
+            }
+            if ($('#engTel').is(':checked')) {
+                $("<td>").text(item['tel']).appendTo($tr);
+            }
+        });
+        $('#tableModal').modal('show');
+    });
 });
