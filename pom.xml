@@ -39,6 +39,7 @@
         <gson.version>2.8.2</gson.version>
         <otj.vesrion>0.11.1</otj.vesrion>
         <catalina.version>6.0.26</catalina.version>
+        <tuckey.url.rewriter.version>4.0.4</tuckey.url.rewriter.version>
     </properties>
 
     <dependencyManagement>
@@ -160,6 +161,11 @@
                 <artifactId>catalina</artifactId>
                 <version>${catalina.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.tuckey</groupId>
+                <artifactId>urlrewritefilter</artifactId>
+                <version>${tuckey.url.rewriter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

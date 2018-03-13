@@ -55,7 +55,7 @@ $(document).on("click", "#readByIdBtn", function () {
         $('#dangerBody').text('Fill input field.');
         $('#dangerModal').modal('show');
     } else {
-        var readIdUrl = "/ajax?id=" + inletId;
+        var readIdUrl = "/users?id=" + inletId;
         $.get(readIdUrl, function (responseJson) {
             if (responseJson == null) {
                 $('#dangerBody').text('No such engineer.');
