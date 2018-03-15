@@ -4,7 +4,7 @@
 
     <groupId>com.sql-works</groupId>
     <artifactId>sql-works</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <scm>
@@ -13,6 +13,7 @@
   </scm>
 
     <properties>
+        <submodules.version>1.0-SNAPSHOT</submodules.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -102,22 +103,22 @@
             <dependency>
                 <groupId>com.sql-works</groupId>
                 <artifactId>dao</artifactId>
-                <version>1.0</version>
+                <version>${submodules.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sql-works</groupId>
                 <artifactId>model</artifactId>
-                <version>1.0</version>
+                <version>${submodules.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sql-works</groupId>
                 <artifactId>service</artifactId>
-                <version>1.0</version>
+                <version>${submodules.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sql-works</groupId>
                 <artifactId>web</artifactId>
-                <version>1.0</version>
+                <version>${submodules.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.flywaydb</groupId>
@@ -214,6 +215,7 @@
                 <version>${release.plugin.version}</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <tagBase>https://github.com/DanilYusupov/sql-works/tags</tagBase>
                 </configuration>
             </plugin>
         </plugins>
