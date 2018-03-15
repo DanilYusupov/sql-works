@@ -9,6 +9,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <scm>
+        <developerConnection>scm:git:https://github.com/DanilYusupov/sql-works.git</developerConnection>
+    </scm>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,6 +44,7 @@
         <otj.vesrion>0.11.1</otj.vesrion>
         <catalina.version>6.0.26</catalina.version>
         <tuckey.url.rewriter.version>4.0.4</tuckey.url.rewriter.version>
+        <release.plugin.version>2.5.3</release.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -203,6 +208,14 @@
                     <source>${java.version}</source>
                 </configuration>
                 <version>${compiler.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${release.plugin.version}</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
             </plugin>
         </plugins>
     </build>

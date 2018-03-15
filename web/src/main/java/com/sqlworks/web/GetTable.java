@@ -19,5 +19,4 @@ public class GetTable extends HttpServlet implements WebLogger, Service {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
     }
-//TODO: realize using checkbox!!!
 }
