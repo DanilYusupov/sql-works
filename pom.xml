@@ -21,7 +21,7 @@
         <rmi.port>1099</rmi.port>
         <tomcat.type>tomcat8x</tomcat.type>
         <tomcat.version>8.5.23</tomcat.version>
-        <log4jcore.version>2.10.0</log4jcore.version>
+        <log4jcore.version>2.13.2</log4jcore.version>
         <log4j.version>1.2.12</log4j.version>
         <surefire.version>2.20.1</surefire.version>
         <cargo.version>1.6.5</cargo.version>
