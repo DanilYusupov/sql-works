@@ -30,7 +30,7 @@
         <postgre.version>42.2.1.jre7</postgre.version>
         <postgre.ds.version>9.1-901.jdbc4</postgre.ds.version>
         <javax.servlet.version>4.0.0</javax.servlet.version>
-        <hibernate.version>5.2.13.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
         <postgre.embedded.version>2.6</postgre.embedded.version>
         <junit.version>4.9</junit.version>
         <slf4j.version>1.7.9</slf4j.version>
